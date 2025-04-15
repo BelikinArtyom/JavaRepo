@@ -1,22 +1,30 @@
+import com.codeborne.selenide.Configuration;
+import com.codeborne.selenide.Selectors;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selectors.byText;
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.open;
+import static com.codeborne.selenide.Selenide.*;
 
 public class Contributor {
 
+
+    @BeforeAll
+    static void setUp() {
+        System.setProperty("selenide.holdBrowserOpen", "true");
+        Configuration.browserSize = "2560x1440";
+    }
+
     @Test
     void andreiSolntsevShouldBeTheFirstContributor() {
-        // открыть страницу репозитория селенида
+
         open("https://github.com/selenide/selenide");
-        // подвести мышку к первому аватару из блока contributors
-        $("div.Layout-sidebar").$(byText("Contributors"))
-                //.closest(".BorderGrid-cell").$$("ul li").first().hover();
+        $("div.Layout-sidebar").$(Selectors.byText("Contributors"))
                 .closest("h2").sibling(0).$$("li").first().hover();
-        // проверка: во всплывающем окне есть текст Andrei Solntsev
-        $(".Popover-message").shouldHave(text("Andrei Solntsev"));
+        $$(".Popover-message").first().shouldHave(text("Andrei Solntsev"));
+
 
 
 
