@@ -16,7 +16,7 @@ public class DragNDrop {
     }
 
     @Test
-    void dragnDropaction () {
+    void dragnDropactiontest() {
 
         open("https://the-internet.herokuapp.com/drag_and_drop");
        // actions().moveToElement($("#column-a")).clickAndHold().moveToElement($("#column-b")).release().perform(); Один из вариантов прохождения Drag'n'Drop

@@ -17,7 +17,7 @@ public class Task5 {
 
 
     @Test
-    void enterpriseHover () {
+    void enterpriseHovertest() {
 
         open("https://github.com/");
         $(".HeaderMenu-nav").$(byText("Solutions")).hover();
