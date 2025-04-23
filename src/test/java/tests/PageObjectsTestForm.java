@@ -4,12 +4,7 @@ import com.codeborne.selenide.Configuration;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.BeforeAll;
 import pages.RegistrationPage;
-
-
 import java.io.File;
-
-import static com.codeborne.selenide.Condition.*;
-import static com.codeborne.selenide.Selenide.*;
 
 public class PageObjectsTestForm {
 
@@ -49,7 +44,6 @@ public class PageObjectsTestForm {
 
         registrationPage.submitButton();
 
-      //  $("#submit").click();
 
         registrationPage.tableCheckResult("Student Name","Паша Техник")
                 .tableCheckResult("Student Name","Паша Техник")
