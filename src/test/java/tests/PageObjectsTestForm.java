@@ -30,19 +30,13 @@ public class PageObjectsTestForm {
                .setDateOfBirth("10","December","1999");
 
 
-        registrationPage.setSubjects("Chemistry");
-
-        registrationPage.setHobbies("Sports, Reading");
-
-        registrationPage.uploadPicture("test_img.jpg");
-
-        registrationPage.setAdress("Улица Пушкина, дом Колотушкина");
-
-        registrationPage.setState("Uttar Pradesh");
-
-        registrationPage.setCity("Agra");
-
-        registrationPage.submitButton();
+        registrationPage.setSubjects("Chemistry")
+        .setHobbies("Sports, Reading")
+        .uploadPicture("test_img.jpg")
+        .setAdress("Улица Пушкина, дом Колотушкина")
+        .setState("Uttar Pradesh")
+        .setCity("Agra")
+        .submitButton();
 
 
         registrationPage.tableCheckResult("Student Name","Паша Техник")
