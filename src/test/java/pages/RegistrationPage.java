@@ -1,6 +1,7 @@
 package pages;
 
 
+import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.SelenideElement;
 import pages.components.calendarComponent;
 
@@ -24,7 +25,12 @@ public class RegistrationPage {
                             submit = $("#submit");
 
 
-
+    public RegistrationPage beforeAll() {
+        Configuration.browserSize = "2560x1440";
+        Configuration.baseUrl = "https://demoqa.com";
+        Configuration.pageLoadStrategy = "eager";
+        return this;
+    }
 
     public RegistrationPage openPage () {
 

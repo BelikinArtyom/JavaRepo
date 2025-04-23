@@ -1,8 +1,6 @@
 package tests;
 
-import com.codeborne.selenide.Configuration;
 import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.BeforeAll;
 import pages.RegistrationPage;
 import java.io.File;
 
@@ -12,15 +10,10 @@ public class PageObjectsTestForm {
 
     File file = new File("src/test/resources/test_img.jpg");
 
-    @BeforeAll
-    static void beforeAll() {
-        Configuration.browserSize = "2560x1440";
-        Configuration.baseUrl = "https://demoqa.com";
-        Configuration.pageLoadStrategy = "eager";
-    }
-
     @Test
     void formTest1() {
+        registrationPage.beforeAll();
+
         registrationPage.openPage()
                .setFirstName("Паша")
                .setLastName("Техник")
@@ -31,12 +24,12 @@ public class PageObjectsTestForm {
 
 
         registrationPage.setSubjects("Chemistry")
-        .setHobbies("Sports, Reading")
-        .uploadPicture("test_img.jpg")
-        .setAdress("Улица Пушкина, дом Колотушкина")
-        .setState("Uttar Pradesh")
-        .setCity("Agra")
-        .submitButton();
+                .setHobbies("Sports, Reading")
+                .uploadPicture("test_img.jpg")
+                .setAdress("Улица Пушкина, дом Колотушкина")
+                .setState("Uttar Pradesh")
+                .setCity("Agra")
+                .submitButton();
 
 
         registrationPage.tableCheckResult("Student Name","Паша Техник")
