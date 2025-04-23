@@ -46,7 +46,6 @@ public class PageObjectsTestForm {
 
 
         registrationPage.tableCheckResult("Student Name","Паша Техник")
-                .tableCheckResult("Student Name","Паша Техник")
                 .tableCheckResult("Student Email","xanax@techique.com")
                 .tableCheckResult("Gender","Male")
                 .tableCheckResult("Mobile","8800555353")
