@@ -34,20 +34,22 @@ public class PageObjectsTestForm {
                .setPhoneNumber("8800555353")
                .setDateOfBirth("10","December","1999");
 
-        $("#subjectsContainer").click();
-        $("#subjectsInput").setValue("Chemistry").pressEnter();
-        $("body").click(); // снимаем фокус с поля, без этого тест не идет дальше по полям (синий трактор едет к нам...)
-        $("label[for='hobbies-checkbox-2']").click();
-        $("label[for='hobbies-checkbox-1']").click();
-        $("#hobbies-checkbox-2").shouldBe(selected);
-        $("#hobbies-checkbox-1").shouldBe(selected);
-        $("#uploadPicture").uploadFromClasspath("test_img.jpg");
-        $("#currentAddress").setValue("Улица Пушкина, дом Колотушкина");
-        $("#state").click();
-        $("#react-select-3-input").setValue("Uttar Pradesh").pressEnter();
-        $("#city").click();
-        $("#react-select-4-input").setValue("Agra").pressEnter();
-        $("#submit").click();
+
+        registrationPage.setSubjects("Chemistry");
+
+        registrationPage.setHobbies("Sports, Reading");
+
+        registrationPage.uploadPicture("test_img.jpg");
+
+        registrationPage.setAdress("Улица Пушкина, дом Колотушкина");
+
+        registrationPage.setState("Uttar Pradesh");
+
+        registrationPage.setCity("Agra");
+
+        registrationPage.submitButton();
+
+      //  $("#submit").click();
 
         registrationPage.tableCheckResult("Student Name","Паша Техник")
                 .tableCheckResult("Student Name","Паша Техник")
@@ -75,7 +77,5 @@ public class PageObjectsTestForm {
 
 
     }
-
-
 
 }
