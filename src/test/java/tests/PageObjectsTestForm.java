@@ -15,12 +15,12 @@ public class PageObjectsTestForm {
         registrationPage.beforeAll();
 
         registrationPage.openPage()
-               .setFirstName("Паша")
-               .setLastName("Техник")
-               .setEmail("xanax@techique.com")
-               .genderRadio("Male")
-               .setPhoneNumber("8800555353")
-               .setDateOfBirth("10","December","1999");
+                .setFirstName("Паша")
+                .setLastName("Техник")
+                .setEmail("xanax@techique.com")
+                .genderRadio("Male")
+                .setPhoneNumber("8800555353")
+                .setDateOfBirth("10", "December", "1999");
 
 
         registrationPage.setSubjects("Chemistry")
@@ -33,6 +33,6 @@ public class PageObjectsTestForm {
 
         registrationPage.checkResult("Label", "value");
 
-    }
 
+    }
 }

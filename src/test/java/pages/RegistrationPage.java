@@ -117,6 +117,11 @@ public class RegistrationPage {
 
     }
 
+    public void checkRequiredFields(String label, String Value) {
+        new TableComponent();
+
+    }
+
     public RegistrationPage submitButton() {
         submit.click();
         return this;

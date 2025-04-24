@@ -23,4 +23,12 @@ public class TableComponent {
         $("table").shouldHave(text("Address"), text("Улица Пушкина, дом Колотушкина"));
         $("table").shouldHave(text("State and City"), text("Uttar Pradesh Agra"));
     }
+
+    public void requiredTableFields(By by){
+        $("table").shouldHave(text("Student Name"), text("Паша Техник"));
+        $("table").shouldHave(text("Gender"), text("Male"));
+        $("table").shouldHave(text("Mobile"), text("8800555353"));
+
+    }
+
 }
