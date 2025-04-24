@@ -2,7 +2,11 @@ package tests;
 
 import org.junit.jupiter.api.*;
 import pages.RegistrationPage;
+import pages.components.resultTable;
+
 import java.io.File;
+
+import static com.codeborne.selenide.Selenide.sleep;
 
 public class PageObjectsTestForm {
 
@@ -29,10 +33,8 @@ public class PageObjectsTestForm {
                 .setAdress("Улица Пушкина, дом Колотушкина")
                 .setState("Uttar Pradesh")
                 .setCity("Agra")
-                .submitButton();
-
-        registrationPage.checkResult("Label", "value");
-
+                .submitButton()
+                .results();
 
     }
 }

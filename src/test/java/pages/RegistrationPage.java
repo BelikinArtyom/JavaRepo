@@ -2,9 +2,11 @@ package pages;
 
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.SelenideElement;
-import pages.components.TableComponent;
 import pages.components.calendarComponent;
+import pages.components.resultTable;
+
 import static com.codeborne.selenide.Condition.selected;
+import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.*;
 import static com.codeborne.selenide.Selenide.executeJavaScript;
 
@@ -112,19 +114,30 @@ public class RegistrationPage {
 
     }
 
-    public void checkResult(String label, String Value) {
-        new TableComponent();
-
+    public RegistrationPage checkAllResults() {
+        $("table").shouldHave(text("Student Name"), text("Паша Техник"));
+        $("table").shouldHave(text("Student Email"), text("xanax@techique.com"));
+        $("table").shouldHave(text("Gender"), text("Male"));
+        $("table").shouldHave(text("Mobile"), text("8800555353"));
+        $("table").shouldHave(text("Date of Birth"), text("24 July,1990"));
+        $("table").shouldHave(text("Subjects"), text("Chemistry"));
+        $("table").shouldHave(text("Hobbies"), text("Паша Техник"));
+        $("table").shouldHave(text("Picture"), text("test_img.jpg"));
+        $("table").shouldHave(text("Address"), text("Улица Пушкина, дом Колотушкина"));
+        $("table").shouldHave(text("State and City"), text("Uttar Pradesh Agra"));
+        return this;
     }
 
-    public void checkRequiredFields(String label, String Value) {
-        new TableComponent();
-
-    }
 
     public RegistrationPage submitButton() {
         submit.click();
         return this;
+    }
+
+    public void results(){
+        new resultTable().results();
+
+
     }
 
 }
