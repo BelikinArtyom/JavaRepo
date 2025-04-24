@@ -5,8 +5,7 @@ import com.codeborne.selenide.SelenideElement;
 import pages.components.calendarComponent;
 import pages.components.resultTable;
 
-import static com.codeborne.selenide.Condition.selected;
-import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.*;
 import static com.codeborne.selenide.Selenide.executeJavaScript;
 
@@ -14,14 +13,15 @@ import static com.codeborne.selenide.Selenide.executeJavaScript;
 public class RegistrationPage {
 
     private SelenideElement firstNameInput = $("#firstName"),
-                            lastNameInput = $("#lastName"),
-                            emailInput = $("#userEmail"),
-                            genderRadio = $("label[for='gender-radio-1']"),
-                            userPhone = $("#userNumber"),
-                            subject = $("#subjectsInput"),
-                            subjectCont = $("#subjectsContainer"),
-                            adress =  $("#currentAddress"),
-                            submit = $("#submit");
+            lastNameInput = $("#lastName"),
+            emailInput = $("#userEmail"),
+            genderRadio = $("label[for='gender-radio-1']"),
+            userPhone = $("#userNumber"),
+            subject = $("#subjectsInput"),
+            subjectCont = $("#subjectsContainer"),
+            adress = $("#currentAddress"),
+            submit = $("#submit");
+//            success = $(".modal-header").shouldBe(visible);
 
 
     public RegistrationPage beforeAll() {
@@ -31,7 +31,7 @@ public class RegistrationPage {
         return this;
     }
 
-    public RegistrationPage openPage () {
+    public RegistrationPage openPage() {
 
         open("/automation-practice-form");
         executeJavaScript("$('#fixedban').remove()");
@@ -72,31 +72,31 @@ public class RegistrationPage {
         return this;
     }
 
-    public RegistrationPage genderRadio (String value) {
+    public RegistrationPage genderRadio(String value) {
 
         genderRadio.click();
         return this;
     }
 
-    public RegistrationPage setPhoneNumber (String value) {
+    public RegistrationPage setPhoneNumber(String value) {
 
         userPhone.setValue(value);
         return this;
     }
 
-    public RegistrationPage setAdress (String value) {
+    public RegistrationPage setAdress(String value) {
 
         adress.setValue(value);
         return this;
     }
 
-    public RegistrationPage setSubjects (String value) {
+    public RegistrationPage setSubjects(String value) {
         subjectCont.click();
         subject.setValue("Chemistry").pressEnter();
         return this;
     }
 
-    public RegistrationPage setHobbies (String value) {
+    public RegistrationPage setHobbies(String value) {
         $("label[for='hobbies-checkbox-2']").click();
         $("label[for='hobbies-checkbox-1']").click();
         $("#hobbies-checkbox-2").shouldBe(selected);
@@ -104,7 +104,7 @@ public class RegistrationPage {
         return this;
     }
 
-    public RegistrationPage uploadPicture (String value) {
+    public RegistrationPage uploadPicture(String value) {
         $("#uploadPicture").uploadFromClasspath("test_img.jpg");
         return this;
     }
@@ -134,10 +134,18 @@ public class RegistrationPage {
         return this;
     }
 
-    public void results(){
+    public void results() {
         new resultTable().results();
-
-
     }
+
+    public void reqResults() {
+        new resultTable().reqResults();
+    }
+
+//    public RegistrationPage successAbsent() {
+//        success.shouldNotBe(visible);
+//        return this;
+//
+//    }
 
 }

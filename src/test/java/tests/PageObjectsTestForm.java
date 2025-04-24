@@ -2,11 +2,8 @@ package tests;
 
 import org.junit.jupiter.api.*;
 import pages.RegistrationPage;
-import pages.components.resultTable;
-
 import java.io.File;
 
-import static com.codeborne.selenide.Selenide.sleep;
 
 public class PageObjectsTestForm {
 
@@ -37,4 +34,42 @@ public class PageObjectsTestForm {
                 .results();
 
     }
-}
+
+        @Test
+        void requiredFieldsTest() {
+
+        registrationPage.beforeAll();
+
+            registrationPage.openPage()
+                    .setFirstName("Паша")
+                    .setLastName("Техник")
+                    .genderRadio("Male")
+                    .setPhoneNumber("8800555353");
+
+
+            registrationPage
+                    .submitButton()
+                    .reqResults();
+
+        }
+
+
+        @Test
+        void negativeScenario() {
+
+            registrationPage.beforeAll();
+
+            registrationPage.openPage()
+                            .setFirstName("Паша")
+                            .setLastName("Техник")
+                            .genderRadio("Male")
+                            .setPhoneNumber("8800555353")
+                            .setEmail("example.tu")
+                            .submitButton();
+//                            .successAbsent();
+
+        }
+
+
+
+    }
