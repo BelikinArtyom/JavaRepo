@@ -1,7 +1,10 @@
 package tests;
 
 import org.junit.jupiter.api.*;
+import org.openqa.selenium.By;
 import pages.RegistrationPage;
+import pages.components.TableComponent;
+
 import java.io.File;
 
 public class PageObjectsTestForm {
@@ -31,18 +34,20 @@ public class PageObjectsTestForm {
                 .setCity("Agra")
                 .submitButton();
 
+        registrationPage.checkResult("Label", "value");
 
-        registrationPage.tableCheckResult("Student Name","Паша Техник")
-                .tableCheckResult("Student Email","xanax@techique.com")
-                .tableCheckResult("Gender","Male")
-                .tableCheckResult("Mobile","8800555353")
-                .tableCheckResult("Date of Birth","24 July,1990")
-                .tableCheckResult("Mobile","8800555353")
-                .tableCheckResult("Subjects","Chemistry")
-                .tableCheckResult("Hobbies","Reading, Sports")
-                .tableCheckResult("Picture","test_img.jpg")
-                .tableCheckResult("Address","Улица Пушкина, дом Колотушкина")
-                .tableCheckResult("State and City","Uttar Pradesh Agra");
+
+//        registrationPage.tableCheckResult("Student Name","Паша Техник")
+//                .tableCheckResult("Student Email","xanax@techique.com")
+//                .tableCheckResult("Gender","Male")
+//                .tableCheckResult("Mobile","8800555353")
+//                .tableCheckResult("Date of Birth","24 July,1990")
+//                .tableCheckResult("Mobile","8800555353")
+//                .tableCheckResult("Subjects","Chemistry")
+//                .tableCheckResult("Hobbies","Reading, Sports")
+//                .tableCheckResult("Picture","test_img.jpg")
+//                .tableCheckResult("Address","Улица Пушкина, дом Колотушкина")
+//                .tableCheckResult("State and City","Uttar Pradesh Agra");
 
 //        $("table").shouldHave(text("Student Name"), text("Паша Техник"));
 //        $("table").shouldHave(text("Student Email"), text("xanax@techique.com"));

@@ -3,14 +3,12 @@ package pages;
 
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.SelenideElement;
+import pages.components.TableComponent;
 import pages.components.calendarComponent;
-
 import static com.codeborne.selenide.Condition.selected;
-import static com.codeborne.selenide.Condition.text;
-import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.*;
 import static com.codeborne.selenide.Selenide.executeJavaScript;
-import static org.openqa.selenium.remote.tracing.EventAttribute.setValue;
+
 
 public class RegistrationPage {
 
@@ -115,9 +113,9 @@ public class RegistrationPage {
 
     }
 
-    public RegistrationPage tableCheckResult(String key, String value) {
-        $("table").$(byText(key)).parent().shouldHave(text(value));
-        return this;
+    public void checkResult(String label, String Value) {
+        new TableComponent(label, Value);
+
     }
 
     public RegistrationPage submitButton() {

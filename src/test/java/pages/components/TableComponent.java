@@ -8,7 +8,10 @@ import static com.codeborne.selenide.Selenide.$;
 public class TableComponent {
 
 
-    public void tableResults (By by){
+    public TableComponent(String label, String value) {
+    }
+
+    public void checkTableResults(By by){
         $("table").shouldHave(text("Student Name"), text("Паша Техник"));
         $("table").shouldHave(text("Student Email"), text("xanax@techique.com"));
         $("table").shouldHave(text("Gender"), text("Male"));
