@@ -1,10 +1,7 @@
 package tests;
 
 import org.junit.jupiter.api.*;
-import org.openqa.selenium.By;
 import pages.RegistrationPage;
-import pages.components.TableComponent;
-
 import java.io.File;
 
 public class PageObjectsTestForm {

@@ -1,6 +1,5 @@
 package pages;
 
-
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.SelenideElement;
 import pages.components.TableComponent;
@@ -114,7 +113,7 @@ public class RegistrationPage {
     }
 
     public void checkResult(String label, String Value) {
-        new TableComponent(label, Value);
+        new TableComponent();
 
     }
 

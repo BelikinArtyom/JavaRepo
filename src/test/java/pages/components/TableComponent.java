@@ -8,7 +8,7 @@ import static com.codeborne.selenide.Selenide.$;
 public class TableComponent {
 
 
-    public TableComponent(String label, String value) {
+    public TableComponent() {
     }
 
     public void checkTableResults(By by){
