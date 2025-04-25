@@ -1,6 +1,5 @@
 package pages;
 
-import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.SelenideElement;
 import pages.components.textBoxResults;
@@ -15,8 +14,7 @@ public class textBoxPage {
             emailInput = $("#userEmail"),
             address = $("#currentAddress"),
             perAdress = $("#permanentAddress"),
-            submit = $("#submit"),
-            results = $("#output");
+            submit = $("#submit");
 
 
     public textBoxPage beforeAll() {

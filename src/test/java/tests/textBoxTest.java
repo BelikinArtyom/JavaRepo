@@ -3,12 +3,9 @@ package tests;
 import org.junit.jupiter.api.Test;
 import pages.textBoxPage;
 
-import static com.codeborne.selenide.Selenide.sleep;
-
 public class textBoxTest {
 
     textBoxPage textBox = new textBoxPage();
-
 
     @Test
     void textboxTesting() {
@@ -22,11 +19,6 @@ public class textBoxTest {
                 .formSubmit("")
                 .textBoxResults();
 
-
-//                sleep(9000);
-
     }
-
-
 
 }
