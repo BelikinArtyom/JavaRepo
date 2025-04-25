@@ -4,6 +4,8 @@ import org.junit.jupiter.api.*;
 import pages.RegistrationPage;
 import java.io.File;
 
+import static com.codeborne.selenide.Selenide.sleep;
+
 
 public class PageObjectsTestForm {
 
@@ -64,9 +66,9 @@ public class PageObjectsTestForm {
                             .setLastName("Техник")
                             .genderRadio("Male")
                             .setPhoneNumber("8800555353")
-                            .setEmail("example.tu")
-                            .submitButton();
-//                            .successAbsent();
+                            .invalidEmail("test.com")
+                            .submitButton()
+                            .resultsAbsent();
 
         }
 

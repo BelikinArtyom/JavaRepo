@@ -12,7 +12,8 @@ import static com.codeborne.selenide.Selenide.executeJavaScript;
 
 public class RegistrationPage {
 
-    private SelenideElement firstNameInput = $("#firstName"),
+    private SelenideElement
+            firstNameInput = $("#firstName"),
             lastNameInput = $("#lastName"),
             emailInput = $("#userEmail"),
             genderRadio = $("label[for='gender-radio-1']"),
@@ -20,8 +21,9 @@ public class RegistrationPage {
             subject = $("#subjectsInput"),
             subjectCont = $("#subjectsContainer"),
             adress = $("#currentAddress"),
-            submit = $("#submit");
-//            success = $(".modal-header").shouldBe(visible);
+            submit = $("#submit"),
+            noResults = $(".table-responsive");
+
 
 
     public RegistrationPage beforeAll() {
@@ -36,6 +38,12 @@ public class RegistrationPage {
         open("/automation-practice-form");
         executeJavaScript("$('#fixedban').remove()");
         executeJavaScript("$('footer').remove()");
+        return this;
+
+    }
+
+    public RegistrationPage invalidEmail (String value) {
+        emailInput.setValue("test.com");
         return this;
 
     }
@@ -142,10 +150,11 @@ public class RegistrationPage {
         new resultTable().reqResults();
     }
 
-//    public RegistrationPage successAbsent() {
-//        success.shouldNotBe(visible);
-//        return this;
-//
-//    }
+    public RegistrationPage resultsAbsent() {
+        noResults.shouldNotBe(visible);
+        return this;
+
+    }
+
 
 }
