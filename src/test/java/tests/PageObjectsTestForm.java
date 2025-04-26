@@ -24,7 +24,7 @@ public class PageObjectsTestForm {
                 .setEmail("xanax@techique.com")
                 .genderRadio("Male")
                 .setPhoneNumber("8800555353")
-                .setDateOfBirth("10", "December", "1999");
+                .setDateOfBirth("25","July","1990");
 
 
         registrationPage.setSubjects("Chemistry")

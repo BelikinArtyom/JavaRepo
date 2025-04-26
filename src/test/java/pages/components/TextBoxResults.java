@@ -1,10 +1,9 @@
 package pages.components;
 
 import static com.codeborne.selenide.Condition.text;
-import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.$;
 
-public class textBoxResults {
+public class TextBoxResults {
 
     public void reqResults() {
         $("#output").shouldHave(text("Name"), text("Jack the Ripper"));

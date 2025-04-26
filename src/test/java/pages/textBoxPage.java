@@ -2,7 +2,7 @@ package pages;
 
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.SelenideElement;
-import pages.components.textBoxResults;
+import pages.components.TextBoxResults;
 
 import static com.codeborne.selenide.Selenide.*;
 import static com.codeborne.selenide.Selenide.executeJavaScript;
@@ -58,7 +58,7 @@ public class textBoxPage {
     }
 
     public void textBoxResults(){
-       new textBoxResults().reqResults();
+       new TextBoxResults().reqResults();
 
     }
 

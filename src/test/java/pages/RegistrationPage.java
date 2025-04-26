@@ -2,8 +2,8 @@ package pages;
 
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.SelenideElement;
-import pages.components.calendarComponent;
-import pages.components.resultTable;
+import pages.components.CalendarComponent;
+import pages.components.ResultTable;
 
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.*;
@@ -118,7 +118,7 @@ public class RegistrationPage {
     }
 
     public void setDateOfBirth(String day, String month, String year) {
-        new calendarComponent().setDate(day, month, year);
+        new CalendarComponent().setDate(month, year, day);
 
     }
 
@@ -130,11 +130,10 @@ public class RegistrationPage {
     public RegistrationPage resultsAbsent() {
         noResults.shouldNotBe(visible);
         return this;
-
     }
 
     public void  checkTableResult(){
-        new resultTable();
+        new ResultTable().checkTableResult("key", "value");
     }
 
     public RegistrationPage removeBanner() {
