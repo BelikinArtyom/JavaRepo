@@ -34,22 +34,22 @@ public class textBoxPage {
 
     public textBoxPage setName(String value) {
 
-        nameInput.setValue("Jack the Ripper");
+        nameInput.setValue(value);
         return this;
     }
 
     public textBoxPage setEmail(String value) {
 
-        emailInput.setValue("jack@ripper.com");
+        emailInput.setValue(value);
         return this;
     }
 
     public textBoxPage setAddress(String value) {
-        address.setValue("Whitechapel, 69");
+        address.setValue(value);
         return this;
     }
     public textBoxPage setPerAdress(String value) {
-        perAdress.setValue("Mental assylum");
+        perAdress.setValue(value);
         return this;
     }
     public textBoxPage formSubmit(String value) {
@@ -59,6 +59,13 @@ public class textBoxPage {
 
     public void textBoxResults(){
        new textBoxResults().reqResults();
+
+    }
+
+    public textBoxPage removeBanner() {
+        executeJavaScript("$('#fixedban').remove()");
+        executeJavaScript("$('footer').remove()");
+        return this;
 
     }
 

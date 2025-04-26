@@ -12,7 +12,7 @@ import static com.codeborne.selenide.Selenide.executeJavaScript;
 
 public class RegistrationPage {
 
-    private SelenideElement
+    final SelenideElement
             firstNameInput = $("#firstName"),
             lastNameInput = $("#lastName"),
             emailInput = $("#userEmail"),
@@ -43,40 +43,40 @@ public class RegistrationPage {
     }
 
     public RegistrationPage invalidEmail (String value) {
-        emailInput.setValue("test.com");
+        emailInput.setValue(value);
         return this;
 
     }
 
     public RegistrationPage setFirstName(String value) {
 
-        firstNameInput.setValue("Паша");
+        firstNameInput.setValue(value);
         return this;
     }
 
     public RegistrationPage setCity(String value) {
 
         $("#city").click();
-        $("#react-select-4-input").setValue("Agra").pressEnter();
+        $("#react-select-4-input").setValue(value).pressEnter();
         return this;
     }
 
     public RegistrationPage setState(String value) {
         $("#state").click();
-        $("#react-select-3-input").setValue("Uttar Pradesh").pressEnter();
+        $("#react-select-3-input").setValue(value).pressEnter();
         return this;
     }
 
     public RegistrationPage setLastName(String value) {
 
-        lastNameInput.setValue("Техник");
+        lastNameInput.setValue(value);
         return this;
     }
 
 
     public RegistrationPage setEmail(String value) {
 
-        emailInput.setValue("xanax@techique.com");
+        emailInput.setValue(value);
         return this;
     }
 
@@ -100,7 +100,7 @@ public class RegistrationPage {
 
     public RegistrationPage setSubjects(String value) {
         subjectCont.click();
-        subject.setValue("Chemistry").pressEnter();
+        subject.setValue(value).pressEnter();
         return this;
     }
 
@@ -122,32 +122,9 @@ public class RegistrationPage {
 
     }
 
-    public RegistrationPage checkAllResults() {
-        $("table").shouldHave(text("Student Name"), text("Паша Техник"));
-        $("table").shouldHave(text("Student Email"), text("xanax@techique.com"));
-        $("table").shouldHave(text("Gender"), text("Male"));
-        $("table").shouldHave(text("Mobile"), text("8800555353"));
-        $("table").shouldHave(text("Date of Birth"), text("24 July,1990"));
-        $("table").shouldHave(text("Subjects"), text("Chemistry"));
-        $("table").shouldHave(text("Hobbies"), text("Паша Техник"));
-        $("table").shouldHave(text("Picture"), text("test_img.jpg"));
-        $("table").shouldHave(text("Address"), text("Улица Пушкина, дом Колотушкина"));
-        $("table").shouldHave(text("State and City"), text("Uttar Pradesh Agra"));
-        return this;
-    }
-
-
     public RegistrationPage submitButton() {
         submit.click();
         return this;
-    }
-
-    public void results() {
-        new resultTable().results();
-    }
-
-    public void reqResults() {
-        new resultTable().reqResults();
     }
 
     public RegistrationPage resultsAbsent() {
@@ -156,5 +133,14 @@ public class RegistrationPage {
 
     }
 
+    public void  checkTableResult(){
+        new resultTable();
+    }
 
+    public RegistrationPage removeBanner() {
+        executeJavaScript("$('#fixedban').remove()");
+        executeJavaScript("$('footer').remove()");
+        return this;
+
+    }
 }

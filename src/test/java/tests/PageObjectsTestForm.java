@@ -4,8 +4,6 @@ import org.junit.jupiter.api.*;
 import pages.RegistrationPage;
 import java.io.File;
 
-import static com.codeborne.selenide.Selenide.sleep;
-
 
 public class PageObjectsTestForm {
 
@@ -18,6 +16,9 @@ public class PageObjectsTestForm {
         registrationPage.beforeAll();
 
         registrationPage.openPage()
+                        .removeBanner();
+
+        registrationPage
                 .setFirstName("Паша")
                 .setLastName("Техник")
                 .setEmail("xanax@techique.com")
@@ -33,16 +34,18 @@ public class PageObjectsTestForm {
                 .setState("Uttar Pradesh")
                 .setCity("Agra")
                 .submitButton()
-                .results();
+                .checkTableResult();
 
     }
 
         @Test
         void requiredFieldsTest() {
 
-        registrationPage.beforeAll();
+        registrationPage.beforeAll()
+                        .openPage()
+                        .removeBanner();
 
-            registrationPage.openPage()
+            registrationPage
                     .setFirstName("Паша")
                     .setLastName("Техник")
                     .genderRadio("Male")
@@ -51,18 +54,18 @@ public class PageObjectsTestForm {
 
             registrationPage
                     .submitButton()
-                    .reqResults();
-
+                    .checkTableResult();
         }
 
 
         @Test
         void negativeScenario() {
 
-            registrationPage.beforeAll();
+            registrationPage.beforeAll()
+                            .openPage()
+                            .removeBanner();
 
-            registrationPage.openPage()
-                            .setFirstName("Паша")
+            registrationPage.setFirstName("Паша")
                             .setLastName("Техник")
                             .genderRadio("Male")
                             .setPhoneNumber("8800555353")
