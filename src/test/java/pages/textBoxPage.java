@@ -3,7 +3,6 @@ package pages;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.SelenideElement;
 import pages.components.TextBoxResults;
-import tests.TestBase;
 
 import static com.codeborne.selenide.Selenide.*;
 import static com.codeborne.selenide.Selenide.executeJavaScript;

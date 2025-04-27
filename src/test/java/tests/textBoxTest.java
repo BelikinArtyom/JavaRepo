@@ -3,8 +3,7 @@ package tests;
 import org.junit.jupiter.api.Test;
 import pages.textBoxPage;
 
-
-public class textBoxTest {
+public class textBoxTest extends TestBase {
 
     textBoxPage textBox = new textBoxPage();
 
