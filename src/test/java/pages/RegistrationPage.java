@@ -24,15 +24,6 @@ public class RegistrationPage {
             submit = $("#submit"),
             noResults = $(".table-responsive");
 
-
-
-    public RegistrationPage beforeAll() {
-        Configuration.browserSize = "2560x1440";
-        Configuration.baseUrl = "https://demoqa.com";
-        Configuration.pageLoadStrategy = "eager";
-        return this;
-    }
-
     public RegistrationPage openPage() {
 
         open("/automation-practice-form");
@@ -122,6 +113,11 @@ public class RegistrationPage {
 
     }
 
+    public RegistrationPage checkTableResult(String key, String value) {
+        new ResultTable().checkTableResult(key, value);
+        return this;
+    }
+
     public RegistrationPage submitButton() {
         submit.click();
         return this;
@@ -130,10 +126,6 @@ public class RegistrationPage {
     public RegistrationPage resultsAbsent() {
         noResults.shouldNotBe(visible);
         return this;
-    }
-
-    public void  checkTableResult(){
-        new ResultTable().checkTableResult("key", "value");
     }
 
     public RegistrationPage removeBanner() {

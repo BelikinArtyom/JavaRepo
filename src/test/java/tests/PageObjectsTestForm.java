@@ -2,15 +2,10 @@ package tests;
 
 import org.junit.jupiter.api.*;
 import pages.RegistrationPage;
-import java.io.File;
-
 
 public class PageObjectsTestForm {
 
-    RegistrationPage registrationPage = new RegistrationPage();
-    TestBase testBase = new TestBase();
-
-    File file = new File("src/test/resources/test_img.jpg");
+    RegistrationPage registrationPage = new RegistrationPage();;
 
     @Test
     void formTest1() {
@@ -21,60 +16,73 @@ public class PageObjectsTestForm {
                         .removeBanner();
 
         registrationPage
-                .setFirstName("Паша")
-                .setLastName("Техник")
+                .setFirstName("Павел")
+                .setLastName("Ивлев")
                 .setEmail("xanax@techique.com")
                 .genderRadio("Male")
                 .setPhoneNumber("8800555353")
-                .setDateOfBirth("25","July","1990");
+                .setDateOfBirth("25", "July", "1990");
 
 
         registrationPage.setSubjects("Chemistry")
-                .setHobbies("Sports, Reading")
+                .setHobbies("Reading, Sports")
                 .uploadPicture("test_img.jpg")
                 .setAdress("Улица Пушкина, дом Колотушкина")
                 .setState("Uttar Pradesh")
                 .setCity("Agra")
+                .submitButton();
+
+        registrationPage.checkTableResult("Student Name", "Павел Ивлев")
+                .checkTableResult("Student Email", "xanax@techique.com")
+                .checkTableResult("Gender", "Male")
+                .checkTableResult("Mobile", "8800555353")
+                .checkTableResult("Date of Birth", "25 July,1990")
+                .checkTableResult("Subjects", "Chemistry")
+                .checkTableResult("Hobbies", "Reading, Sports")
+                .checkTableResult("Picture", "test_img.jpg")
+                .checkTableResult("Address", "Улица Пушкина, дом Колотушкина")
+                .checkTableResult("State and City", "Uttar Pradesh Agra");
+    }
+
+    @Test
+    void requiredFieldsTest() {
+
+        TestBase.setUp();
+
+        registrationPage
+                .openPage()
+                .removeBanner();
+
+        registrationPage
+                .setFirstName("Павел")
+                .setLastName("Ивлев")
+                .genderRadio("Male")
+                .setPhoneNumber("8800555353");
+
+
+        registrationPage.submitButton();
+
+        registrationPage.checkTableResult("Student Name", "Павел Ивлев")
+                .checkTableResult("Mobile", "8800555353")
+                .checkTableResult("Gender", "Male");
+
+    }
+    @Test
+    void negativeScenario() {
+
+        TestBase.setUp();
+
+        registrationPage
+                .openPage()
+                .removeBanner();
+
+        registrationPage.setFirstName("Паша")
+                .setLastName("Техник")
+                .genderRadio("Male")
+                .setPhoneNumber("8800555353")
+                .invalidEmail("test.com")
                 .submitButton()
-                .checkTableResult();
-
+                .resultsAbsent();
     }
 
-        @Test
-        void requiredFieldsTest() {
-
-        registrationPage.beforeAll()
-                        .openPage()
-                        .removeBanner();
-
-            registrationPage
-                    .setFirstName("Паша")
-                    .setLastName("Техник")
-                    .genderRadio("Male")
-                    .setPhoneNumber("8800555353");
-
-
-            registrationPage
-                    .submitButton()
-                    .checkTableResult();
-        }
-
-
-        @Test
-        void negativeScenario() {
-
-            registrationPage.beforeAll()
-                            .openPage()
-                            .removeBanner();
-
-            registrationPage.setFirstName("Паша")
-                            .setLastName("Техник")
-                            .genderRadio("Male")
-                            .setPhoneNumber("8800555353")
-                            .invalidEmail("test.com")
-                            .submitButton()
-                            .resultsAbsent();
-
-        }
-
-    }
+}

@@ -62,13 +62,11 @@ public class textBoxPage {
        new TextBoxResults().reqResults();
 
     }
-
     public textBoxPage removeBanner() {
         executeJavaScript("$('#fixedban').remove()");
         executeJavaScript("$('footer').remove()");
         return this;
 
     }
-
 
 }
