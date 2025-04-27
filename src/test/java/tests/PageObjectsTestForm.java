@@ -8,12 +8,14 @@ import java.io.File;
 public class PageObjectsTestForm {
 
     RegistrationPage registrationPage = new RegistrationPage();
+    TestBase testBase = new TestBase();
 
     File file = new File("src/test/resources/test_img.jpg");
 
     @Test
     void formTest1() {
-        registrationPage.beforeAll();
+
+        TestBase.setUp();
 
         registrationPage.openPage()
                         .removeBanner();
@@ -74,7 +76,5 @@ public class PageObjectsTestForm {
                             .resultsAbsent();
 
         }
-
-
 
     }

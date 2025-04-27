@@ -3,7 +3,6 @@ package tests;
 import org.junit.jupiter.api.Test;
 import pages.textBoxPage;
 
-import static com.codeborne.selenide.Selenide.sleep;
 
 public class textBoxTest {
 
@@ -12,9 +11,9 @@ public class textBoxTest {
     @Test
     void textboxTesting() {
 
+        TestBase.setUp();
 
-
-        textBox.beforeAll()
+        textBox
                 .openPage()
                 .removeBanner();
 
@@ -25,9 +24,6 @@ public class textBoxTest {
                 .setPerAdress("Mental assylum")
                 .formSubmit("")
                 .textBoxResults();
-
-        sleep(9000);
-
     }
 
 }
