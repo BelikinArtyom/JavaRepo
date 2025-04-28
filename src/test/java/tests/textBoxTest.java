@@ -10,11 +10,7 @@ public class textBoxTest extends TestBase {
     @Test
     void textboxTesting() {
 
-        TestBase.setUp();
-
-        textBox
-                .openPage()
-                .removeBanner();
+        textBox.openPage();
 
         textBox
                 .setName("Jack the Ripper")

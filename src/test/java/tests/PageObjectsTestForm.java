@@ -3,7 +3,6 @@ package tests;
 import org.junit.jupiter.api.*;
 import pages.RegistrationPage;
 
-
 public class PageObjectsTestForm extends TestBase {
 
 
@@ -12,23 +11,20 @@ public class PageObjectsTestForm extends TestBase {
     @Test
     void formTest1() {
 
-        TestBase.setUp();
 
-        registrationPage.openPage()
-                        .removeBanner();
+        registrationPage.openPage();
 
         registrationPage
                 .setFirstName("Павел")
                 .setLastName("Ивлев")
                 .setEmail("xanax@techique.com")
-                .genderRadio("Male")
+                .genderRadio()
                 .setPhoneNumber("8800555353")
                 .setDateOfBirth("25", "July", "1990");
 
-
         registrationPage.setSubjects("Chemistry")
                 .setHobbies("Reading, Sports")
-                .uploadPicture("test_img.jpg")
+                .uploadPicture()
                 .setAdress("Улица Пушкина, дом Колотушкина")
                 .setState("Uttar Pradesh")
                 .setCity("Agra")
@@ -44,23 +40,19 @@ public class PageObjectsTestForm extends TestBase {
                 .checkTableResult("Picture", "test_img.jpg")
                 .checkTableResult("Address", "Улица Пушкина, дом Колотушкина")
                 .checkTableResult("State and City", "Uttar Pradesh Agra");
+
     }
 
     @Test
     void requiredFieldsTest() {
 
-        TestBase.setUp();
-
-        registrationPage
-                .openPage()
-                .removeBanner();
+        registrationPage.openPage();
 
         registrationPage
                 .setFirstName("Павел")
                 .setLastName("Ивлев")
-                .genderRadio("Male")
+                .genderRadio()
                 .setPhoneNumber("8800555353");
-
 
         registrationPage.submitButton();
 
@@ -72,15 +64,12 @@ public class PageObjectsTestForm extends TestBase {
     @Test
     void negativeScenario() {
 
-        TestBase.setUp();
-
         registrationPage
-                .openPage()
-                .removeBanner();
+                .openPage();
 
         registrationPage.setFirstName("Паша")
                 .setLastName("Техник")
-                .genderRadio("Male")
+                .genderRadio()
                 .setPhoneNumber("8800555353")
                 .invalidEmail("test.com")
                 .submitButton()

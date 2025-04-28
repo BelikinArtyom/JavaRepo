@@ -3,6 +3,7 @@ package pages;
 import com.codeborne.selenide.SelenideElement;
 import pages.components.CalendarComponent;
 import pages.components.ResultTable;
+import tests.TestBase;
 
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.*;
@@ -26,10 +27,7 @@ public class RegistrationPage {
     public RegistrationPage openPage() {
 
         open("/automation-practice-form");
-        executeJavaScript("$('#fixedban').remove()");
-        executeJavaScript("$('footer').remove()");
         return this;
-
     }
 
     public RegistrationPage invalidEmail (String value) {
@@ -70,7 +68,7 @@ public class RegistrationPage {
         return this;
     }
 
-    public RegistrationPage genderRadio(String value) {
+    public RegistrationPage genderRadio() {
 
         genderRadio.click();
         return this;
@@ -94,7 +92,7 @@ public class RegistrationPage {
         return this;
     }
 
-    public RegistrationPage setHobbies(String value) {
+    public RegistrationPage setHobbies(String String) {
         $("label[for='hobbies-checkbox-2']").click();
         $("label[for='hobbies-checkbox-1']").click();
         $("#hobbies-checkbox-2").shouldBe(selected);
@@ -102,7 +100,7 @@ public class RegistrationPage {
         return this;
     }
 
-    public RegistrationPage uploadPicture(String value) {
+    public RegistrationPage uploadPicture() {
         $("#uploadPicture").uploadFromClasspath("test_img.jpg");
         return this;
     }
@@ -131,6 +129,5 @@ public class RegistrationPage {
         executeJavaScript("$('#fixedban').remove()");
         executeJavaScript("$('footer').remove()");
         return this;
-
     }
 }
