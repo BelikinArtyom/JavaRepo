@@ -29,6 +29,8 @@ public class practiceTest {
                      $(".cookies-notification").shouldHave(Condition.text("Закрыть"))
     public static int getRandomInt(int min, int max) {
         return ThreadLocalRandom.current().nextInt(min, max + 1);
+
+                            Configuration.pageLoadStrategy = "eager";
     }
         .click();
     }
