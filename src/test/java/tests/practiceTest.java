@@ -15,7 +15,7 @@ public class practiceTest {
         System.setProperty("selenide.holdBrowserOpen", "true");
         Configuration.pageLoadStrategy = "eager";
     }
-
+ИТС А БУТИФУЛ ТЕСТ
 
     @Test
     void closingButton () {
