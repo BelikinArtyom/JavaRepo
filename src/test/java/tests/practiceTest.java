@@ -23,8 +23,12 @@ public class practiceTest {
         open("https://www.otpbank.ru/retail/bank-services/");
         $(".cookies-notification").shouldHave(Condition.text("Закрыть"))
               .click();
+        
+   open("https://www.otpbank.ru/retail/bank-services/");
 
 
+        
+         sleep(900000);
     }
 
 }
