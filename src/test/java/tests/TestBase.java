@@ -13,6 +13,7 @@ public class TestBase {
         Configuration.pageLoadStrategy = "eager";
 
 
+
 //        Faker faker = new Faker();
 //
 //        String firstName = faker.name().firstName();

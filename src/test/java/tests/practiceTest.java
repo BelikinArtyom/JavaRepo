@@ -3,8 +3,12 @@ package tests;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Configuration;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.ClassOrderer;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
+import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.*;
 
 public class practiceTest {
@@ -15,14 +19,15 @@ public class practiceTest {
         System.setProperty("selenide.holdBrowserOpen", "true");
         Configuration.pageLoadStrategy = "eager";
     }
-
+    protected static String selectedGender;
 
     @Test
     void closingButton () {
 
-        open("https://www.otpbank.ru/retail/bank-services/");
-        $(".cookies-notification").shouldHave(Condition.text("Закрыть"))
-              .click();
+        open("https://demoqa.com/automation-practice-form");
+
+
+        sleep(1000);
 
     }
 

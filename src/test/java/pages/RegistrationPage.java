@@ -1,14 +1,16 @@
 package pages;
 
+import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import pages.components.CalendarComponent;
 import pages.components.ResultTable;
 import tests.TestBase;
 
+import java.util.Random;
+
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.*;
-import static com.codeborne.selenide.Selenide.executeJavaScript;
-import static utils.RandomUtils.getRandomItemFromArray;
+
 
 
 public class  RegistrationPage extends TestBase {
@@ -25,6 +27,19 @@ public class  RegistrationPage extends TestBase {
             submit = $("#submit"),
             noResults = $(".table-responsive");
 
+    protected final Random random = new Random();
+
+    private ElementsCollection genderOptions() {
+        return $$("div.custom-radio input[name='gender'] + label");
+    }
+
+    public void selectRandomGender() {
+        if (!genderOptions().isEmpty()) {
+            genderOptions().get(random.nextInt(genderOptions().size())).click();
+        }
+    }
+
+
     public RegistrationPage openPage() {
 
         open("/automation-practice-form");
@@ -34,7 +49,6 @@ public class  RegistrationPage extends TestBase {
     public RegistrationPage invalidEmail (String email) {
         emailInput.setValue(email);
         return this;
-
     }
 
     public RegistrationPage setFirstName(String firstName) {
@@ -75,11 +89,20 @@ public class  RegistrationPage extends TestBase {
         return this;
     }
 
-    public RegistrationPage setPhoneNumber(String value) {
-
-        userPhone.setValue(value);
+    public RegistrationPage setPhoneNumber(String phoneNumber) {
+        if (phoneNumber.matches("\\d{7}")) {
+            userPhone.setValue("+7812" + phoneNumber);
+        } else {
+            userPhone.setValue(phoneNumber);
+        }
         return this;
     }
+
+//    public RegistrationPage setPhoneNumber(String phoneNumber) {
+//
+//        userPhone.setValue(phoneNumber);
+//        return this;
+//    }
 
     public RegistrationPage setAdress(String value) {
 
@@ -123,12 +146,6 @@ public class  RegistrationPage extends TestBase {
 
     public RegistrationPage resultsAbsent() {
         noResults.shouldNotBe(visible);
-        return this;
-    }
-
-    public RegistrationPage removeBanner() {
-        executeJavaScript("$('#fixedban').remove()");
-        executeJavaScript("$('footer').remove()");
         return this;
     }
 }
