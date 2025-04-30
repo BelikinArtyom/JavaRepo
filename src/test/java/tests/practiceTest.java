@@ -13,7 +13,7 @@ public class practiceTest {
     static void setUp() {
         Configuration.browserSize = "2560x1440";
         System.setProperty("selenide.holdBrowserOpen", "true");
-        // Configuration.pageLoadStrategy = "eager";
+        Configuration.pageLoadStrategy = "eager";
     }
 
 
@@ -23,8 +23,6 @@ public class practiceTest {
         open("https://www.otpbank.ru/retail/bank-services/");
         $(".cookies-notification").shouldHave(Condition.text("Закрыть"))
               .click();
-
-        sleep(8999999);
 
 
     }
