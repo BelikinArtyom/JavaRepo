@@ -27,8 +27,13 @@ public class practiceTest {
    open("https://www.otpbank.ru/retail/bank-services/");
                 $(".cookies-notification").shouldHave(Condition.text("Закрыть"))
 
+                     $(".cookies-notification").shouldHave(Condition.text("Закрыть"))
 
-        
+
+                     $(".cookies-notification").shouldHave(Condition.text("Закрыть"))
+
+
+        .click();
      //    sleep(900000);
     }
 
