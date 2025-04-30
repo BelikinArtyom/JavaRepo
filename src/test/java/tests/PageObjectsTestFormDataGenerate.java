@@ -3,7 +3,9 @@ package tests;
 import org.junit.jupiter.api.*;
 import pages.RegistrationPage;
 
-import static tests.TestData.faker;
+import static com.codeborne.selenide.Selenide.sleep;
+import static tests.TestData.*;
+import static tests.practiceTest.selectedGender;
 
 public class PageObjectsTestFormDataGenerate extends TestBase {
 
@@ -16,33 +18,40 @@ public class PageObjectsTestFormDataGenerate extends TestBase {
         registrationPage.openPage();
 
         registrationPage
-                .setFirstName(TestData.firstName)
+                .setFirstName(firstName)
                 .setLastName(TestData.lastName)
                 .setEmail(TestData.email)
                 .selectRandomGender();
 
-        registrationPage
-                .setPhoneNumber(faker.number().digits(7))
-                .setDateOfBirth("25", "July", "1990");
+        registrationPage.setPhoneNumber(faker.number().digits(10));
 
-        registrationPage.setSubjects("Chemistry")
-                .setHobbies("Reading, Sports")
+        registrationPage.setRandomBirthDate(TestData.getRandomBirthDate());
+
+        registrationPage
+                .getRandomSubjects();
+
+        registrationPage
+                .setRandomHobbies();
+
+        registrationPage
                 .uploadPicture()
-                .setAdress("Улица Пушкина, дом Колотушкина")
-                .setState("Uttar Pradesh")
-                .setCity("Agra")
+                .setAdress(TestData.adress)
+                .selectRandomStateAndCity();
+
+        registrationPage
                 .submitButton();
 
 
+        registrationPage
+                .checkTableResult("Student Name", firstName + " " + lastName)
+                .checkTableResult("Student Email", email);
 
+        registrationPage.checkTableResult("Gender", selectedGender);
 
+        registrationPage
+                .checkTableResult("Mobile", phone);
 
-//        registrationPage
-////                .checkTableResult("Student Name", "Павел Ивлев")
-////                .checkTableResult("Student Email", "xanax@techique.com")
-//                 .checkGenderInResult()
-////                .checkTableResult("Gender", "Male")
-//                .checkTableResult("Mobile", "8800555353")
+        sleep (9000);
 //                .checkTableResult("Date of Birth", "25 July,1990")
 //                .checkTableResult("Subjects", "Chemistry")
 //                .checkTableResult("Hobbies", "Reading, Sports")

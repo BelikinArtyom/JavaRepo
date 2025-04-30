@@ -5,15 +5,21 @@ import com.codeborne.selenide.SelenideElement;
 import pages.components.CalendarComponent;
 import pages.components.ResultTable;
 import tests.TestBase;
-
+import tests.TestData;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.Random;
-
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.*;
-
+import static tests.TestData.faker;
 
 
 public class  RegistrationPage extends TestBase {
+
+    private final SelenideElement subjectsInput = $("#subjectsInput");
+    private final TestData testDataHelper = new TestData();
+
 
     final SelenideElement
             firstNameInput = $("#firstName"),
@@ -25,7 +31,8 @@ public class  RegistrationPage extends TestBase {
             subjectCont = $("#subjectsContainer"),
             adress = $("#currentAddress"),
             submit = $("#submit"),
-            noResults = $(".table-responsive");
+            noResults = $(".table-responsive"),
+            dateOfBirthInput = $("#dateOfBirthInput");
 
     protected final Random random = new Random();
 
@@ -33,13 +40,35 @@ public class  RegistrationPage extends TestBase {
         return $$("div.custom-radio input[name='gender'] + label");
     }
 
+    public void setRandomBirthDate(String randomBirthDate) {
+        dateOfBirthInput.click();
+
+        $(".react-datepicker__year-select").selectOptionContainingText(
+                String.valueOf(2005 + random.nextInt(2010 - 2005 + 1))
+        );
+        $(".react-datepicker__month-select").selectOption(
+                random.nextInt(12)
+        );
+        $$(".react-datepicker__day:not(.react-datepicker__day--outside-month)")
+                .get(random.nextInt(28))
+                .click();
+    }
+
     public void selectRandomGender() {
         if (!genderOptions().isEmpty()) {
             genderOptions().get(random.nextInt(genderOptions().size())).click();
+            String selectedGender = $("input[name='gender']:checked + label").getText();
         }
     }
 
-
+    public void getRandomSubjects() {
+        testDataHelper.getRandomSubjects(2).forEach(subject -> {
+            subjectsInput.shouldBe(visible, enabled).click();
+            subjectsInput.setValue(subject);
+            $(".subjects-auto-complete__menu-list").shouldBe(visible);
+            subjectsInput.pressEnter();
+        });
+    }
     public RegistrationPage openPage() {
 
         open("/automation-practice-form");
@@ -90,23 +119,17 @@ public class  RegistrationPage extends TestBase {
     }
 
     public RegistrationPage setPhoneNumber(String phoneNumber) {
-        if (phoneNumber.matches("\\d{7}")) {
-            userPhone.setValue("+7812" + phoneNumber);
+        if (phoneNumber.matches("\\d{10}")) {
+            userPhone.setValue("7812" + phoneNumber);
         } else {
             userPhone.setValue(phoneNumber);
         }
         return this;
     }
 
-//    public RegistrationPage setPhoneNumber(String phoneNumber) {
-//
-//        userPhone.setValue(phoneNumber);
-//        return this;
-//    }
+    public RegistrationPage setAdress(String fullAddress) {
 
-    public RegistrationPage setAdress(String value) {
-
-        adress.setValue(value);
+        adress.setValue(fullAddress);
         return this;
     }
 
@@ -116,11 +139,19 @@ public class  RegistrationPage extends TestBase {
         return this;
     }
 
-    public RegistrationPage setHobbies(String String) {
-        $("label[for='hobbies-checkbox-2']").click();
-        $("label[for='hobbies-checkbox-1']").click();
-        $("#hobbies-checkbox-2").shouldBe(selected);
-        $("#hobbies-checkbox-1").shouldBe(selected);
+    public RegistrationPage setRandomHobbies() {
+
+        List<String> hobbyCheckboxLocators = Arrays.asList(
+                "label[for='hobbies-checkbox-1']",
+                "label[for='hobbies-checkbox-2']",
+                "label[for='hobbies-checkbox-3']"
+        );
+        Collections.shuffle(hobbyCheckboxLocators);
+        int count = 1 + new Random().nextInt(hobbyCheckboxLocators.size());
+        for (int i = 0; i < count; i++) {
+            String locator = hobbyCheckboxLocators.get(i);
+            $(locator).click();
+        }
         return this;
     }
 
@@ -132,6 +163,22 @@ public class  RegistrationPage extends TestBase {
     public void setDateOfBirth(String day, String month, String year) {
         new CalendarComponent().setDate(month, year, day);
 
+    }
+
+    public void selectRandomStateAndCity() {
+        // Открываем выбор штата
+        $("#state").click();
+        // Выбираем случайный штат из видимых вариантов
+        $$("div[id*='react-select'][tabindex='-1']").get(random().nextInt(4)).click();
+
+        // Ждем активации поля города
+        $("#city").shouldBe(enabled).click();
+        // Выбираем случайный город из видимых вариантов
+        $$("div[id*='react-select'][tabindex='-1']").get(random().nextInt(3)).click();
+    }
+
+    private static Random random() {
+        return new Random();
     }
 
     public RegistrationPage checkTableResult(String key, String value) {

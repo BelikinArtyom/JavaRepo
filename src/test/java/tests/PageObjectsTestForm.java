@@ -5,12 +5,10 @@ import pages.RegistrationPage;
 
 public class PageObjectsTestForm extends TestBase {
 
-
     RegistrationPage registrationPage = new RegistrationPage();;
 
     @Test
     void formTest1() {
-
 
         registrationPage.openPage();
 
@@ -23,7 +21,7 @@ public class PageObjectsTestForm extends TestBase {
                 .setDateOfBirth("25", "July", "1990");
 
         registrationPage.setSubjects("Chemistry")
-                .setHobbies("Reading, Sports")
+//                .setHobbies("Reading, Sports")
                 .uploadPicture()
                 .setAdress("Улица Пушкина, дом Колотушкина")
                 .setState("Uttar Pradesh")
