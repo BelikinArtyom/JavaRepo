@@ -8,9 +8,10 @@ import tests.TestBase;
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.*;
 import static com.codeborne.selenide.Selenide.executeJavaScript;
+import static utils.RandomUtils.getRandomItemFromArray;
 
 
-public class RegistrationPage {
+public class  RegistrationPage extends TestBase {
 
     final SelenideElement
             firstNameInput = $("#firstName"),
@@ -30,15 +31,15 @@ public class RegistrationPage {
         return this;
     }
 
-    public RegistrationPage invalidEmail (String value) {
-        emailInput.setValue(value);
+    public RegistrationPage invalidEmail (String email) {
+        emailInput.setValue(email);
         return this;
 
     }
 
-    public RegistrationPage setFirstName(String value) {
+    public RegistrationPage setFirstName(String firstName) {
 
-        firstNameInput.setValue(value);
+        firstNameInput.setValue(firstName);
         return this;
     }
 
@@ -55,9 +56,9 @@ public class RegistrationPage {
         return this;
     }
 
-    public RegistrationPage setLastName(String value) {
+    public RegistrationPage setLastName(String lastName) {
 
-        lastNameInput.setValue(value);
+        lastNameInput.setValue(lastName);
         return this;
     }
 
