@@ -10,7 +10,8 @@ import static tests.practiceTest.selectedGender;
 public class PageObjectsTestFormDataGenerate extends TestBase {
 
 
-    RegistrationPage registrationPage = new RegistrationPage();;
+    RegistrationPage registrationPage = new RegistrationPage();
+    String expectedGender = registrationPage.getSelectedGender();;
 
     @Test
     void formTest1() {
@@ -19,13 +20,13 @@ public class PageObjectsTestFormDataGenerate extends TestBase {
 
         registrationPage
                 .setFirstName(firstName)
-                .setLastName(TestData.lastName)
-                .setEmail(TestData.email)
+                .setLastName(lastName)
+                .setEmail(email)
                 .selectRandomGender();
 
         registrationPage.setPhoneNumber(faker.number().digits(10));
 
-        registrationPage.setRandomBirthDate(TestData.getRandomBirthDate());
+        registrationPage.setRandomBirthDate(getRandomBirthDate());
 
         registrationPage
                 .getRandomSubjects();
@@ -35,7 +36,7 @@ public class PageObjectsTestFormDataGenerate extends TestBase {
 
         registrationPage
                 .uploadPicture()
-                .setAdress(TestData.adress)
+                .setAdress(adress)
                 .selectRandomStateAndCity();
 
         registrationPage
@@ -46,14 +47,18 @@ public class PageObjectsTestFormDataGenerate extends TestBase {
                 .checkTableResult("Student Name", firstName + " " + lastName)
                 .checkTableResult("Student Email", email);
 
-        registrationPage.checkTableResult("Gender", selectedGender);
+        registrationPage.checkTableResult("Gender", registrationPage.getSelectedGender());
+//        registrationPage.checkTableResult("Gender", expectedGender);
 
         registrationPage
                 .checkTableResult("Mobile", phone);
 
-        sleep (9000);
-//                .checkTableResult("Date of Birth", "25 July,1990")
-//                .checkTableResult("Subjects", "Chemistry")
+
+        String expectedBirthDate = "";
+        registrationPage.checkTableResult("Date of Birth", expectedBirthDate);
+
+//        sleep (9000);
+//                registrationPage.checkTableResult("Subjects", "Chemistry")
 //                .checkTableResult("Hobbies", "Reading, Sports")
 //                .checkTableResult("Picture", "test_img.jpg")
 //                .checkTableResult("Address", "Улица Пушкина, дом Колотушкина")

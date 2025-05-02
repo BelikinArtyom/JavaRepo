@@ -48,9 +48,9 @@ public class TestData {
     }
 
     protected void selectRandomOption(SelenideElement dropdown, String optionsLocator) {
-        dropdown.click(); // Открываем дропдаун
+        dropdown.click();
         List<SelenideElement> options = $$(optionsLocator)
-                .filter(visible); // Только видимые элементы
+                .filter(visible);
         if (!options.isEmpty()) {
             options.get(random.nextInt(options.size())).click();
         }

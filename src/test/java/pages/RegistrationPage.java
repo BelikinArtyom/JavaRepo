@@ -19,6 +19,8 @@ public class  RegistrationPage extends TestBase {
 
     private final SelenideElement subjectsInput = $("#subjectsInput");
     private final TestData testDataHelper = new TestData();
+    private String selectedGender;
+
 
 
     final SelenideElement
@@ -54,12 +56,30 @@ public class  RegistrationPage extends TestBase {
                 .click();
     }
 
-    public void selectRandomGender() {
+//    public void selectRandomGender() {
+//        if (!genderOptions().isEmpty()) {
+//            genderOptions().get(random.nextInt(genderOptions().size())).click();
+//            String gender = $("input[name='gender']:checked + label").getText();
+//        }
+//    }
+
+    public RegistrationPage selectRandomGender() {
         if (!genderOptions().isEmpty()) {
-            genderOptions().get(random.nextInt(genderOptions().size())).click();
-            String selectedGender = $("input[name='gender']:checked + label").getText();
+            SelenideElement randomOption = genderOptions()
+                    .get(random.nextInt(genderOptions().size()));
+            this.selectedGender = randomOption.getText(); // Сохраняем текст
+            randomOption.click();
         }
+        return this;
     }
+
+    public String getSelectedGender() {
+        return this.selectedGender;
+    }
+
+//    private ElementsCollection genderOptions() {
+//        return $$("input[name='gender'] + label");
+//    }
 
     public void getRandomSubjects() {
         testDataHelper.getRandomSubjects(2).forEach(subject -> {

@@ -15,7 +15,6 @@ public class RandomUtils {
         System.out.println(getRandomGender());
     }
 
-
     public static String getRandomString(int len) {
         String AB = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
         SecureRandom rnd = new SecureRandom();
@@ -24,7 +23,6 @@ public class RandomUtils {
             sb.append(AB.charAt(rnd.nextInt(AB.length())));
 
         return sb.toString();
-
     }
 
     public static String getRandomEmail() {
@@ -51,7 +49,6 @@ public class RandomUtils {
     }
 
     public static String getRandomItemFromArray(String[] array) {
-//        int index = ThreadLocalRandom.current().nextInt(array.length);
           int index = getRandomInt(0, array.length - 1);
           return array[index];
     }
