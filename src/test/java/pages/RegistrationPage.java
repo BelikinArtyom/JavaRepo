@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Random;
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.*;
-import static tests.TestData.faker;
 
 
 public class  RegistrationPage extends TestBase {
@@ -20,6 +19,8 @@ public class  RegistrationPage extends TestBase {
     private final SelenideElement subjectsInput = $("#subjectsInput");
     private final TestData testDataHelper = new TestData();
     private String selectedGender;
+    private String enteredPhone;
+    private String selectedBirthDate;
 
 
 
@@ -43,6 +44,7 @@ public class  RegistrationPage extends TestBase {
     }
 
     public void setRandomBirthDate(String randomBirthDate) {
+        this.selectedBirthDate = randomBirthDate;
         dateOfBirthInput.click();
 
         $(".react-datepicker__year-select").selectOptionContainingText(
@@ -56,12 +58,11 @@ public class  RegistrationPage extends TestBase {
                 .click();
     }
 
-//    public void selectRandomGender() {
-//        if (!genderOptions().isEmpty()) {
-//            genderOptions().get(random.nextInt(genderOptions().size())).click();
-//            String gender = $("input[name='gender']:checked + label").getText();
-//        }
-//    }
+        public String getSelectedBirthDate() {
+            return selectedBirthDate;
+
+    }
+
 
     public RegistrationPage selectRandomGender() {
         if (!genderOptions().isEmpty()) {
@@ -76,10 +77,6 @@ public class  RegistrationPage extends TestBase {
     public String getSelectedGender() {
         return this.selectedGender;
     }
-
-//    private ElementsCollection genderOptions() {
-//        return $$("input[name='gender'] + label");
-//    }
 
     public void getRandomSubjects() {
         testDataHelper.getRandomSubjects(2).forEach(subject -> {
@@ -139,12 +136,21 @@ public class  RegistrationPage extends TestBase {
     }
 
     public RegistrationPage setPhoneNumber(String phoneNumber) {
-        if (phoneNumber.matches("\\d{10}")) {
-            userPhone.setValue("7812" + phoneNumber);
-        } else {
-            userPhone.setValue(phoneNumber);
+        if (phoneNumber.matches("\\d{6}")) {
+            enteredPhone = "7812" + phoneNumber;
+            userPhone.setValue(enteredPhone);
         }
         return this;
+    }
+
+    public String getEnteredPhone (String enteredPhone) {
+        return enteredPhone;
+    }
+
+
+    public String getEnteredPhone() {
+        return enteredPhone;
+
     }
 
     public RegistrationPage setAdress(String fullAddress) {
@@ -194,7 +200,7 @@ public class  RegistrationPage extends TestBase {
         // Ждем активации поля города
         $("#city").shouldBe(enabled).click();
         // Выбираем случайный город из видимых вариантов
-        $$("div[id*='react-select'][tabindex='-1']").get(random().nextInt(3)).click();
+        $$("div[id*='react-select'][tabindex='-1']").get(random().nextInt(2)).click();
     }
 
     private static Random random() {

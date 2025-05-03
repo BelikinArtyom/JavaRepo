@@ -47,12 +47,12 @@ public class TestData {
         return LocalDate.of(year, month, day).format(formatter);
     }
 
-    protected void selectRandomOption(SelenideElement dropdown, String optionsLocator) {
-        dropdown.click();
-        List<SelenideElement> options = $$(optionsLocator)
-                .filter(visible);
-        if (!options.isEmpty()) {
-            options.get(random.nextInt(options.size())).click();
-        }
+//    protected void selectRandomOption(SelenideElement dropdown, String optionsLocator) {
+//        dropdown.click();
+//        List<SelenideElement> options = $$(optionsLocator)
+//                .filter(visible);
+//        if (!options.isEmpty()) {
+//            options.get(random.nextInt(options.size())).click();
+//        }
     }
-}
+

@@ -11,7 +11,8 @@ public class PageObjectsTestFormDataGenerate extends TestBase {
 
 
     RegistrationPage registrationPage = new RegistrationPage();
-    String expectedGender = registrationPage.getSelectedGender();;
+    String expectedGender = registrationPage.getSelectedGender();
+    String randomBirthDate = TestBase.getRandomBirthDate(); ;
 
     @Test
     void formTest1() {
@@ -24,7 +25,7 @@ public class PageObjectsTestFormDataGenerate extends TestBase {
                 .setEmail(email)
                 .selectRandomGender();
 
-        registrationPage.setPhoneNumber(faker.number().digits(10));
+        registrationPage.setPhoneNumber(faker.number().digits(6));
 
         registrationPage.setRandomBirthDate(getRandomBirthDate());
 
@@ -42,20 +43,15 @@ public class PageObjectsTestFormDataGenerate extends TestBase {
         registrationPage
                 .submitButton();
 
-
         registrationPage
                 .checkTableResult("Student Name", firstName + " " + lastName)
                 .checkTableResult("Student Email", email);
 
         registrationPage.checkTableResult("Gender", registrationPage.getSelectedGender());
-//        registrationPage.checkTableResult("Gender", expectedGender);
 
-        registrationPage
-                .checkTableResult("Mobile", phone);
+        registrationPage.checkTableResult("Mobile", registrationPage.getEnteredPhone());
 
-
-        String expectedBirthDate = "";
-        registrationPage.checkTableResult("Date of Birth", expectedBirthDate);
+        registrationPage.checkTableResult("Date of Birth", randomBirthDate);
 
 //        sleep (9000);
 //                registrationPage.checkTableResult("Subjects", "Chemistry")
