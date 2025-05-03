@@ -11,6 +11,9 @@ public class ResultTable {
     public final SelenideElement tableResult = $(".table-responsive");
 
     public void checkTableResult(String key, String value) {
-        tableResult.$(byText(key)).parent().shouldHave(text(value));
-        }
+        tableResult.$(byText(key))
+                .parent()
+                .shouldHave(text(value));
+    }
+
 }

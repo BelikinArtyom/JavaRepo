@@ -2,15 +2,19 @@ package pages;
 
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
+import io.netty.util.internal.ThreadLocalRandom;
 import pages.components.CalendarComponent;
 import pages.components.ResultTable;
 import tests.TestBase;
 import tests.TestData;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
+import java.util.Locale;
+
 import static com.codeborne.selenide.Condition.*;
+import static com.codeborne.selenide.Selectors.byClassName;
+import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.*;
 
 
@@ -21,7 +25,8 @@ public class  RegistrationPage extends TestBase {
     private String selectedGender;
     private String enteredPhone;
     private String selectedBirthDate;
-
+    private final Random random = new Random();
+    private String selectedBirthDateFormatted;
 
 
     final SelenideElement
@@ -35,34 +40,78 @@ public class  RegistrationPage extends TestBase {
             adress = $("#currentAddress"),
             submit = $("#submit"),
             noResults = $(".table-responsive"),
-            dateOfBirthInput = $("#dateOfBirthInput");
+            dateOfBirthInput = $("#dateOfBirthInput"),
+            monthSelect = $(".react-datepicker__month-select"),
+            yearSelect = $(".react-datepicker__year-select"),
+            calendarDayContainer = $(".react-datepicker");
 
-    protected final Random random = new Random();
+//    protected final Random random = new Random();
 
     private ElementsCollection genderOptions() {
         return $$("div.custom-radio input[name='gender'] + label");
     }
 
-    public void setRandomBirthDate(String randomBirthDate) {
-        this.selectedBirthDate = randomBirthDate;
+    public RegistrationPage setRandomBirthDate() {
+
+        LocalDate start = LocalDate.of(1980, 1, 1);
+        LocalDate end = LocalDate.now();
+        long randomDay = ThreadLocalRandom.current().nextLong(start.toEpochDay(), end.toEpochDay());
+        LocalDate randomDate = LocalDate.ofEpochDay(randomDay);
+
         dateOfBirthInput.click();
 
-        $(".react-datepicker__year-select").selectOptionContainingText(
-                String.valueOf(2005 + random.nextInt(2010 - 2005 + 1))
-        );
-        $(".react-datepicker__month-select").selectOption(
-                random.nextInt(12)
-        );
-        $$(".react-datepicker__day:not(.react-datepicker__day--outside-month)")
-                .get(random.nextInt(28))
-                .click();
+        $(".react-datepicker__month-select").selectOption(randomDate.getMonth().getValue() - 1); // 0-based
+        $(".react-datepicker__year-select").selectOption(String.valueOf(randomDate.getYear()));
+
+        String dayText = String.valueOf(randomDate.getDayOfMonth());
+        $(".react-datepicker").$(byText(dayText)).click();
+
+        selectedBirthDateFormatted = randomDate.format(DateTimeFormatter.ofPattern("dd MMMM,yyyy", Locale.ENGLISH));
+
+        return this;
     }
 
-        public String getSelectedBirthDate() {
-            return selectedBirthDate;
-
+    public void checkBirthDateInResult() {
+        new ResultTable().checkTableResult("Date of Birth", selectedBirthDateFormatted);
     }
 
+//    public String setRandomBirthDate() {
+//        // Открываем date picker
+//        dateOfBirthInput.click();
+//
+//        // Генерируем случайные значения
+//        int year = 2005 + random.nextInt(6); // 2005-2010
+//        int monthIndex = random.nextInt(12); // 0-11
+//        int dayIndex = random.nextInt(28);   // 0-27 (дни 1-28)
+//
+//        // Выбираем дату
+//        $(".react-datepicker__year-select").selectOptionContainingText(String.valueOf(year));
+//        $(".react-datepicker__month-select").selectOption(monthIndex);
+//        $$(".react-datepicker__day:not(.react-datepicker__day--outside-month)").get(dayIndex).click();
+//
+//        // Получаем название выбранного месяца
+//        String monthName = $(".react-datepicker__month-select").getSelectedText();
+//
+//        // Форматируем дату (например "22 May,2025")
+//        this.selectedBirthDate = String.format("%d %s,%d", dayIndex + 1, monthName, year);
+//        return this.selectedBirthDate;
+//    }
+
+
+//    public void setRandomBirthDate(String randomBirthDate) {
+//        this.selectedBirthDate = randomBirthDate;
+//        dateOfBirthInput.click();
+//
+//        $(".react-datepicker__year-select").selectOptionContainingText(
+//                String.valueOf(2005 + random.nextInt(2010 - 2005 + 1))
+//        );
+//        $(".react-datepicker__month-select").selectOption(
+//                random.nextInt(12)
+//        );
+//        $$(".react-datepicker__day:not(.react-datepicker__day--outside-month)")
+//                .get(random.nextInt(28))
+//                .click();
+//    }
 
     public RegistrationPage selectRandomGender() {
         if (!genderOptions().isEmpty()) {
