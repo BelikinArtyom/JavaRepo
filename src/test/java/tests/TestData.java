@@ -1,15 +1,11 @@
 package tests;
 
-
-import com.codeborne.selenide.SelenideElement;
 import com.github.javafaker.Faker;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-import static com.codeborne.selenide.Condition.visible;
-import static com.codeborne.selenide.Selenide.$$;
 
 
 public class TestData {
@@ -33,8 +29,9 @@ public class TestData {
     );
 
     public List<String> getRandomSubjects(int count) {
-        Collections.shuffle(SUBJECTS);
-        return SUBJECTS.subList(0, 1);
+        List<String> shuffled = new ArrayList<>(SUBJECTS);
+        Collections.shuffle(shuffled);
+        return shuffled.subList(0, count);
     }
 
     public static String getRandomBirthDate() {
@@ -47,12 +44,5 @@ public class TestData {
         return LocalDate.of(year, month, day).format(formatter);
     }
 
-//    protected void selectRandomOption(SelenideElement dropdown, String optionsLocator) {
-//        dropdown.click();
-//        List<SelenideElement> options = $$(optionsLocator)
-//                .filter(visible);
-//        if (!options.isEmpty()) {
-//            options.get(random.nextInt(options.size())).click();
-//        }
-    }
+}
 

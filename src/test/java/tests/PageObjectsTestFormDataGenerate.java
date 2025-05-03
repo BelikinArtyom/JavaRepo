@@ -29,7 +29,7 @@ public class PageObjectsTestFormDataGenerate extends TestBase {
         registrationPage.setRandomBirthDate();
 
         registrationPage
-                .getRandomSubjects();
+                .setRandomSubjects(2);
 
         registrationPage
                 .setRandomHobbies();
@@ -52,8 +52,10 @@ public class PageObjectsTestFormDataGenerate extends TestBase {
 
         registrationPage.checkBirthDateInResult();
 
-                registrationPage.checkTableResult("Subjects", "Chemistry");
-//                .checkTableResult("Hobbies", "Reading, Sports")
+        registrationPage.checkSubjectsInResult();
+
+        registrationPage.checkHobbiesInResult();
+
 //                .checkTableResult("Picture", "test_img.jpg")
 //                .checkTableResult("Address", "Улица Пушкина, дом Колотушкина")
 //                .checkTableResult("State and City", "Uttar Pradesh Agra");
