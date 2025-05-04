@@ -22,10 +22,9 @@ public class PageObjectsTestForm extends TestBase {
 
         registrationPage.setSubjects("Chemistry")
 //                .setHobbies("Reading, Sports")
-                .uploadPicture()
+                .uploadRandomPicture()
                 .setAdress("Улица Пушкина, дом Колотушкина")
-                .setState("Uttar Pradesh")
-                .setCity("Agra")
+                .setRandomStateAndCity()
                 .submitButton();
 
         registrationPage.checkTableResult("Student Name", "Павел Ивлев")

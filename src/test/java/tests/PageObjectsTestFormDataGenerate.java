@@ -5,13 +5,10 @@ import pages.RegistrationPage;
 
 import static com.codeborne.selenide.Selenide.sleep;
 import static tests.TestData.*;
-import static tests.practiceTest.selectedGender;
 
 public class PageObjectsTestFormDataGenerate extends TestBase {
 
-
     RegistrationPage registrationPage = new RegistrationPage();
-    String expectedGender = registrationPage.getSelectedGender();
 
     @Test
     void formTest1() {
@@ -35,9 +32,9 @@ public class PageObjectsTestFormDataGenerate extends TestBase {
                 .setRandomHobbies();
 
         registrationPage
-                .uploadPicture()
+                .uploadRandomPicture()
                 .setAdress(adress)
-                .selectRandomStateAndCity();
+                .setRandomStateAndCity();
 
         registrationPage
                 .submitButton();
@@ -56,9 +53,12 @@ public class PageObjectsTestFormDataGenerate extends TestBase {
 
         registrationPage.checkHobbiesInResult();
 
-//                .checkTableResult("Picture", "test_img.jpg")
-//                .checkTableResult("Address", "Улица Пушкина, дом Колотушкина")
-//                .checkTableResult("State and City", "Uttar Pradesh Agra");
+        registrationPage.checkPictureInResult();
+
+        registrationPage.checkStateAndCityInResult();
+
+        registrationPage.checkTableResult("Address", adress);
+//        sleep(4000);
     }
 
 }

@@ -1,5 +1,6 @@
 package pages;
 
+import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import io.netty.util.internal.ThreadLocalRandom;
@@ -27,7 +28,15 @@ public class  RegistrationPage extends TestBase {
     private String selectedBirthDateFormatted;
     private List<String> selectedSubjects;
     private List<String> selectedHobbies;
+    private String uploadedPictureName;
+    private String selectedStateAndCity;
 
+    private static final Map<String, List<String>> stateCityMap = Map.of(
+            "NCR", List.of("Delhi", "Gurgaon", "Noida"),
+            "Uttar Pradesh", List.of("Agra", "Lucknow", "Merrut"),
+            "Haryana", List.of("Karnal", "Panipat"),
+            "Rajasthan", List.of("Jaipur", "Jaiselmer")
+    );
 
     final SelenideElement
             firstNameInput = $("#firstName"),
@@ -120,16 +129,34 @@ public class  RegistrationPage extends TestBase {
         return this;
     }
 
-    public RegistrationPage setCity(String value) {
+    public RegistrationPage setRandomStateAndCity() {
+        Map<String, List<String>> stateCityMap = new HashMap<>();
+        stateCityMap.put("NCR", Arrays.asList("Delhi", "Gurgaon", "Noida"));
+        stateCityMap.put("Uttar Pradesh", Arrays.asList("Agra", "Lucknow", "Merrut"));
+        stateCityMap.put("Haryana", Arrays.asList("Karnal", "Panipat"));
+        stateCityMap.put("Rajasthan", Arrays.asList("Jaipur", "Jaiselmer"));
+
+        List<String> states = new ArrayList<>(stateCityMap.keySet());
+        String selectedState = states.get(new Random().nextInt(states.size()));
+        List<String> cities = stateCityMap.get(selectedState);
+        String selectedCity = cities.get(new Random().nextInt(cities.size()));
+
+        $("#state").click();
+        $(byText(selectedState)).click();
 
         $("#city").click();
-        $("#react-select-4-input").setValue(value).pressEnter();
+        $(byText(selectedCity)).click();
+
+        selectedStateAndCity = selectedState + " " + selectedCity;
+
         return this;
     }
 
-    public RegistrationPage setState(String value) {
-        $("#state").click();
-        $("#react-select-3-input").setValue(value).pressEnter();
+    public RegistrationPage checkStateAndCityInResult() {
+        new ResultTable().tableResult.shouldBe(Condition.visible);
+
+        new ResultTable().checkTableResult("State and City", selectedStateAndCity);
+
         return this;
     }
 
@@ -139,16 +166,9 @@ public class  RegistrationPage extends TestBase {
         return this;
     }
 
-
     public RegistrationPage setEmail(String value) {
 
         emailInput.setValue(value);
-        return this;
-    }
-
-    public RegistrationPage genderRadio() {
-
-        genderRadio.click();
         return this;
     }
 
@@ -178,7 +198,6 @@ public class  RegistrationPage extends TestBase {
     }
 
     public RegistrationPage setRandomHobbies() {
-        // Чекбоксы и их отображаемые значения
         Map<String, String> hobbyLabels = Map.of(
                 "label[for='hobbies-checkbox-1']", "Sports",
                 "label[for='hobbies-checkbox-2']", "Reading",
@@ -205,46 +224,21 @@ public class  RegistrationPage extends TestBase {
         return checkTableResult("Hobbies", joinedHobbies);
     }
 
-//    public RegistrationPage setRandomHobbies() {
-//
-//        List<String> hobbyCheckboxLocators = Arrays.asList(
-//                "label[for='hobbies-checkbox-1']",
-//                "label[for='hobbies-checkbox-2']",
-//                "label[for='hobbies-checkbox-3']"
-//        );
-//        Collections.shuffle(hobbyCheckboxLocators);
-//        int count = 1 + new Random().nextInt(hobbyCheckboxLocators.size());
-//        for (int i = 0; i < count; i++) {
-//            String locator = hobbyCheckboxLocators.get(i);
-//            $(locator).click();
-//        }
-//        return this;
-//    }
-
-    public RegistrationPage uploadPicture() {
-        $("#uploadPicture").uploadFromClasspath("test_img.jpg");
+    public RegistrationPage uploadRandomPicture() {
+        List<String> availablePictures = Arrays.asList("test_img.jpg", "shilo.jpg", "tyler.jpg");
+        uploadedPictureName = availablePictures.get(new Random().nextInt(availablePictures.size()));
+        $("#uploadPicture").uploadFromClasspath(uploadedPictureName);
         return this;
     }
+
+    public RegistrationPage checkPictureInResult() {
+        return checkTableResult("Picture", uploadedPictureName);
+    }
+
 
     public void setDateOfBirth(String day, String month, String year) {
         new CalendarComponent().setDate(month, year, day);
 
-    }
-
-    public void selectRandomStateAndCity() {
-        // Открываем выбор штата
-        $("#state").click();
-        // Выбираем случайный штат из видимых вариантов
-        $$("div[id*='react-select'][tabindex='-1']").get(random().nextInt(4)).click();
-
-        // Ждем активации поля города
-        $("#city").shouldBe(enabled).click();
-        // Выбираем случайный город из видимых вариантов
-        $$("div[id*='react-select'][tabindex='-1']").get(random().nextInt(2)).click();
-    }
-
-    private static Random random() {
-        return new Random();
     }
 
     public RegistrationPage checkTableResult(String key, String value) {

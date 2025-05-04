@@ -2,11 +2,8 @@ package tests;
 
 import com.github.javafaker.Faker;
 
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
-
-
 
 public class TestData {
 
@@ -17,10 +14,6 @@ public class TestData {
     public static final String lastName = faker.name().lastName();
     public static final String email = faker.internet().emailAddress();
     public static final String adress = faker.address().fullAddress();
-    public static final String phone = faker.phoneNumber().phoneNumber();
-
-
-    protected static Random random = new Random();
 
     private static final List<String> SUBJECTS = Arrays.asList(
             "Maths", "Physics", "Chemistry", "Computer Science",
@@ -34,15 +27,12 @@ public class TestData {
         return shuffled.subList(0, count);
     }
 
-    public static String getRandomBirthDate() {
-        int minYear = 2009;
-        int maxYear = LocalDate.now().getYear();
-        int year = minYear + random.nextInt(maxYear - minYear + 1);
-        int month = 1 + random.nextInt(12);
-        LocalDate date = LocalDate.of(year, month, 1);
-        int day = 1 + random.nextInt(date.lengthOfMonth() - 1);
-        return LocalDate.of(year, month, day).format(formatter);
-    }
+    public static Map<String, List<String>> STATE_CITY_MAP = Map.of(
+            "NCR", List.of("Delhi", "Gurgaon", "Noida"),
+            "Uttar Pradesh", List.of("Agra", "Lucknow", "Merrut"),
+            "Haryana", List.of("Karnal", "Panipat"),
+            "Rajasthan", List.of("Jaipur", "Jaiselmer")
+    );
 
 }
 
