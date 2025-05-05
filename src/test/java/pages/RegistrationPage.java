@@ -172,6 +172,12 @@ public class  RegistrationPage extends TestBase {
         return this;
     }
 
+    public RegistrationPage genderRadio() {
+
+        genderRadio.click();
+        return this;
+    }
+
     public RegistrationPage setPhoneNumber(String phoneNumber) {
         if (phoneNumber.matches("\\d{6}")) {
             enteredPhone = "7812" + phoneNumber;

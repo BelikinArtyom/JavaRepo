@@ -58,7 +58,7 @@ public class PageObjectsTestFormDataGenerate extends TestBase {
         registrationPage.checkStateAndCityInResult();
 
         registrationPage.checkTableResult("Address", adress);
-//        sleep(4000);
+
     }
 
 }
