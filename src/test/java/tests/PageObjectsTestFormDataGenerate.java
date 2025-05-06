@@ -2,6 +2,7 @@ package tests;
 
 import org.junit.jupiter.api.*;
 import pages.RegistrationPage;
+import pages.components.ResultTable;
 
 import java.util.Collections;
 
@@ -11,6 +12,7 @@ public class PageObjectsTestFormDataGenerate extends TestBase {
 
     RegistrationPage registrationPage = new RegistrationPage();
     TestData testData = new TestData();
+    ResultTable resultTable = new ResultTable();
 
 
     @Test
@@ -31,7 +33,7 @@ public class PageObjectsTestFormDataGenerate extends TestBase {
 
         registrationPage.setPhoneNumber(faker.number().digits(6));
 
-        registrationPage.setRandomBirthDate();
+        registrationPage.setRandomBirthDate(testData);
 
         registrationPage.selectSubjects(Collections.singletonList(singleSubject));
 
@@ -52,14 +54,19 @@ public class PageObjectsTestFormDataGenerate extends TestBase {
                 .checkTableResult("Student Name", firstName + " " + lastName)
                 .checkTableResult("Student Email", email)
                 .checkTableResult("Gender", TestData.gender)
-                .checkTableResult("Mobile", registrationPage.getEnteredPhone())
-                .checkBirthDateInResult();
+                .checkTableResult("Mobile", registrationPage.getEnteredPhone());
+
+        registrationPage.checkBirthDateInResult(resultTable);
+
         registrationPage
                 .checkSubjectsInResult();
+
         registrationPage
                 .checkHobbiesInResult();
+
         registrationPage
                 .checkStateAndCityInResult(testData.selectedStateAndCity);
+
         registrationPage.checkTableResult("Address", adress);
     }
 

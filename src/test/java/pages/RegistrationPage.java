@@ -2,15 +2,10 @@ package pages;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
-//import io.netty.util.internal.ThreadLocalRandom;
 import pages.components.ResultTable;
 import tests.TestBase;
 import tests.TestData;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
-import java.util.Locale;
-import java.util.concurrent.ThreadLocalRandom;
 
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.*;
@@ -19,10 +14,9 @@ public class  RegistrationPage extends TestBase {
 
     private final SelenideElement subjectsInput = $("#subjectsInput");
     private String enteredPhone;
-    private String selectedBirthDateFormatted;
+    public String selectedBirthDateFormatted;
     public List<String> selectedSubjects;
     private ResultTable resultTable = new ResultTable();
-    private SelenideElement tableResult = $(".table-responsive");
     private TestData testData;
 
 
@@ -36,29 +30,35 @@ public class  RegistrationPage extends TestBase {
             dateOfBirthInput = $("#dateOfBirthInput");
 
 
-    public RegistrationPage setRandomBirthDate() {
+    public RegistrationPage setRandomBirthDate(TestData testData) {
 
-        LocalDate start = LocalDate.of(1980, 1, 1);
-        LocalDate end = LocalDate.now();
-        long randomDay = ThreadLocalRandom.current().nextLong(start.toEpochDay(), end.toEpochDay());
-        LocalDate randomDate = LocalDate.ofEpochDay(randomDay);
+        testData.generateRandomBirthDate();
+
+        selectedBirthDateFormatted = testData.selectedBirthDateFormatted;
 
         dateOfBirthInput.click();
 
-        $(".react-datepicker__month-select").selectOption(randomDate.getMonth().getValue() - 1); // 0-based
-        $(".react-datepicker__year-select").selectOption(String.valueOf(randomDate.getYear()));
+        int monthIndex = testData.randomBirthDate.getMonthValue() - 1;
+        $(".react-datepicker__month-select").selectOption(monthIndex);
 
-        String dayText = String.valueOf(randomDate.getDayOfMonth());
-        $(".react-datepicker").$(byText(dayText)).click();
+        // Выбираем год
+        $(".react-datepicker__year-select").selectOption(String.valueOf(testData.randomBirthDate.getYear()));
 
-        selectedBirthDateFormatted = randomDate.format(DateTimeFormatter.ofPattern("dd MMMM,yyyy", Locale.ENGLISH));
+        // Выбираем день
+        $(".react-datepicker").$(byText(String.valueOf(testData.randomBirthDate.getDayOfMonth()))).click();
 
         return this;
     }
 
-    public void checkBirthDateInResult() {
-        new ResultTable().checkTableResult("Date of Birth", selectedBirthDateFormatted);
+    public RegistrationPage checkBirthDateInResult(ResultTable resultTable) {
+        if (selectedBirthDateFormatted == null) {
+            throw new RuntimeException("Selected birth date is null");
+        }
+
+        resultTable.checkTableResult("Date of Birth", selectedBirthDateFormatted);
+        return this;
     }
+
 
     public RegistrationPage selectGender(String gender) {
         $$("#genterWrapper .custom-control").findBy(Condition.text(gender)).click();
