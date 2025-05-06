@@ -3,6 +3,8 @@ package tests;
 import org.junit.jupiter.api.*;
 import pages.RegistrationPage;
 
+import java.util.Collections;
+
 import static tests.TestData.*;
 
 public class PageObjectsTestFormDataGenerate extends TestBase {
@@ -19,21 +21,20 @@ public class PageObjectsTestFormDataGenerate extends TestBase {
         data.generateRandomPictureName();
 
         registrationPage.openPage();
+        registrationPage.setTestData(data);
 
         registrationPage
                 .setFirstName(firstName)
                 .setLastName(lastName)
                 .setEmail(email)
-                .selectRandomGender();
+                .selectGender(TestData.gender);
 
         registrationPage.setPhoneNumber(faker.number().digits(6));
 
         registrationPage.setRandomBirthDate();
 
-        registrationPage
-                .setRandomSubjects(2);
+        registrationPage.selectSubjects(Collections.singletonList(singleSubject));
 
-        registrationPage.setTestData(data);
         registrationPage.selectHobbies(data.selectedHobbySelectors);
 
         registrationPage.uploadPicture(data.getUploadedPictureName());
@@ -45,22 +46,20 @@ public class PageObjectsTestFormDataGenerate extends TestBase {
         registrationPage
                 .submitButton();
 
+
+
         registrationPage
                 .checkTableResult("Student Name", firstName + " " + lastName)
-                .checkTableResult("Student Email", email);
-
-        registrationPage.checkTableResult("Gender", registrationPage.getSelectedGender());
-
-        registrationPage.checkTableResult("Mobile", registrationPage.getEnteredPhone());
-
-        registrationPage.checkBirthDateInResult();
-
-        registrationPage.checkSubjectsInResult();
-
-        registrationPage.checkHobbiesInResult();
-
-        registrationPage.checkStateAndCityInResult(testData.selectedStateAndCity);
-
+                .checkTableResult("Student Email", email)
+                .checkTableResult("Gender", TestData.gender)
+                .checkTableResult("Mobile", registrationPage.getEnteredPhone())
+                .checkBirthDateInResult();
+        registrationPage
+                .checkSubjectsInResult();
+        registrationPage
+                .checkHobbiesInResult();
+        registrationPage
+                .checkStateAndCityInResult(testData.selectedStateAndCity);
         registrationPage.checkTableResult("Address", adress);
     }
 

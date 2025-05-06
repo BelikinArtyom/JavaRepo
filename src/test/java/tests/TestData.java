@@ -1,9 +1,7 @@
 package tests;
 
 import com.github.javafaker.Faker;
-import pages.components.ResultTable;
 
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 import static com.codeborne.selenide.Selectors.byText;
@@ -15,35 +13,27 @@ public class TestData {
     private String uploadedPictureName;
 
     public static final Faker faker = new Faker();
-    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMM yyyy");
+
 
     public static final String firstName = faker.name().firstName();
     public static final String lastName = faker.name().lastName();
     public static final String email = faker.internet().emailAddress();
     public static final String adress = faker.address().fullAddress();
-
-    private static final List<String> SUBJECTS = Arrays.asList(
-            "Maths", "Physics", "Chemistry", "Computer Science",
-            "English", "Economics", "Biology", "History", "Civics",
-            "Social Studies", "Accounting", "Arts", "Hindi", "Commerce"
+    public static final String gender = faker.options().option("Male", "Female", "Other");
+    public static final String singleSubject = faker.options().option(
+            "Maths", "Accounting", "Arts", "Social Studies", "Physics", "Chemistry",
+            "Computer Science", "English", "Economics", "History", "Biology"
     );
 
     public List<String> selectedHobbyLabels;
     public List<String> selectedHobbySelectors;
+    private List<String> selectedSubjects;
 
     private static final Map<String, String> hobbyMap = Map.of(
             "label[for='hobbies-checkbox-1']", "Sports",
             "label[for='hobbies-checkbox-2']", "Reading",
             "label[for='hobbies-checkbox-3']", "Music"
     );
-
-    private ResultTable resultTable = new ResultTable();
-
-    public List<String> getRandomSubjects(int count) {
-        List<String> shuffled = new ArrayList<>(SUBJECTS);
-        Collections.shuffle(shuffled);
-        return shuffled.subList(0, count);
-    }
 
 
     public void setRandomStateAndCity() {
@@ -76,11 +66,6 @@ public class TestData {
         return uploadedPictureName;
     }
 
-    public void setUploadedPictureName(String pictureName) {
-        this.uploadedPictureName = pictureName;
-    }
-
-
     public void generateRandomHobbies() {
         List<String> allSelectors = new ArrayList<>(hobbyMap.keySet());
         Collections.shuffle(allSelectors);
@@ -97,34 +82,12 @@ public class TestData {
         }
     }
 
-    public void setRandomHobbies() {
-        Map<String, String> hobbyMap = Map.of(
-                "label[for='hobbies-checkbox-1']", "Sports",
-                "label[for='hobbies-checkbox-2']", "Reading",
-                "label[for='hobbies-checkbox-3']", "Music"
-        );
-
-        List<String> allSelectors = new ArrayList<>(hobbyMap.keySet());
-        Collections.shuffle(allSelectors);
-
-        int count = 1 + new Random().nextInt(allSelectors.size()); // от 1 до 3
-
-        selectedHobbySelectors = new ArrayList<>();
-        selectedHobbyLabels = new ArrayList<>();
-
-        for (int i = 0; i < count; i++) {
-            String selector = allSelectors.get(i);
-            selectedHobbySelectors.add(selector);
-            selectedHobbyLabels.add(hobbyMap.get(selector));
-
-        }
-
-    }
     public String getHobbiesAsText() {
         return String.join(", ", selectedHobbyLabels);
     }
 
-
 }
+
+
 
 

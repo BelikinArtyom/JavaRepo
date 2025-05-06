@@ -1,7 +1,6 @@
 package pages;
 
 import com.codeborne.selenide.Condition;
-import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 //import io.netty.util.internal.ThreadLocalRandom;
 import pages.components.ResultTable;
@@ -13,20 +12,15 @@ import java.util.*;
 import java.util.Locale;
 import java.util.concurrent.ThreadLocalRandom;
 
-import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.*;
 
 public class  RegistrationPage extends TestBase {
 
     private final SelenideElement subjectsInput = $("#subjectsInput");
-    private final TestData testDataHelper = new TestData();
-    private String selectedGender;
     private String enteredPhone;
-    private final Random random = new Random();
     private String selectedBirthDateFormatted;
-    private List<String> selectedSubjects;
-    public static String uploadedPictureName;
+    public List<String> selectedSubjects;
     private ResultTable resultTable = new ResultTable();
     private SelenideElement tableResult = $(".table-responsive");
     private TestData testData;
@@ -36,17 +30,11 @@ public class  RegistrationPage extends TestBase {
             firstNameInput = $("#firstName"),
             lastNameInput = $("#lastName"),
             emailInput = $("#userEmail"),
-            genderRadio = $("label[for='gender-radio-1']"),
             userPhone = $("#userNumber"),
             adress = $("#currentAddress"),
             submit = $("#submit"),
             dateOfBirthInput = $("#dateOfBirthInput");
 
-
-
-    private ElementsCollection genderOptions() {
-        return $$("div.custom-radio input[name='gender'] + label");
-    }
 
     public RegistrationPage setRandomBirthDate() {
 
@@ -72,36 +60,23 @@ public class  RegistrationPage extends TestBase {
         new ResultTable().checkTableResult("Date of Birth", selectedBirthDateFormatted);
     }
 
-    public RegistrationPage selectRandomGender() {
-        if (!genderOptions().isEmpty()) {
-            SelenideElement randomOption = genderOptions()
-                    .get(random.nextInt(genderOptions().size()));
-            this.selectedGender = randomOption.getText(); // Сохраняем текст
-            randomOption.click();
-        }
+    public RegistrationPage selectGender(String gender) {
+        $$("#genterWrapper .custom-control").findBy(Condition.text(gender)).click();
         return this;
     }
 
-    public String getSelectedGender() {
-        return this.selectedGender;
-    }
-
-    public RegistrationPage setRandomSubjects(int count) {
-        selectedSubjects = testDataHelper.getRandomSubjects(count);
-
-        for (String subject : selectedSubjects) {
-            subjectsInput.shouldBe(visible, enabled).click();
-            subjectsInput.setValue(subject);
-            $(".subjects-auto-complete__menu-list").shouldBe(visible);
-            subjectsInput.pressEnter();
+    public RegistrationPage selectSubjects(List<String> subjects) {
+        this.selectedSubjects = subjects;
+        for (String subject : subjects) {
+            subjectsInput.setValue(subject).pressEnter();
         }
-
         return this;
     }
 
     public RegistrationPage checkSubjectsInResult() {
-        String joinedSubjects = String.join(", ", selectedSubjects);
-        return checkTableResult("Subjects", joinedSubjects);
+        String expectedSubjects = String.join(", ", selectedSubjects);
+        resultTable.checkTableResult("Subjects", expectedSubjects);
+        return this;
     }
 
     public RegistrationPage openPage() {
@@ -133,12 +108,6 @@ public class  RegistrationPage extends TestBase {
         return this;
     }
 
-    public RegistrationPage genderRadio() {
-
-        genderRadio.click();
-        return this;
-    }
-
     public RegistrationPage setPhoneNumber(String phoneNumber) {
         if (phoneNumber.matches("\\d{6}")) {
             enteredPhone = "7812" + phoneNumber;
@@ -153,7 +122,6 @@ public class  RegistrationPage extends TestBase {
     }
 
     public RegistrationPage setAdress(String fullAddress) {
-
         adress.setValue(fullAddress);
         return this;
     }
