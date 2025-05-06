@@ -3,8 +3,7 @@ package pages;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
-import io.netty.util.internal.ThreadLocalRandom;
-import pages.components.CalendarComponent;
+//import io.netty.util.internal.ThreadLocalRandom;
 import pages.components.ResultTable;
 import tests.TestBase;
 import tests.TestData;
@@ -12,11 +11,11 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.Locale;
+import java.util.concurrent.ThreadLocalRandom;
 
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.*;
-
 
 public class  RegistrationPage extends TestBase {
 
@@ -27,16 +26,11 @@ public class  RegistrationPage extends TestBase {
     private final Random random = new Random();
     private String selectedBirthDateFormatted;
     private List<String> selectedSubjects;
-    private List<String> selectedHobbies;
-    private String uploadedPictureName;
-    private String selectedStateAndCity;
+    public static String uploadedPictureName;
+    private ResultTable resultTable = new ResultTable();
+    private SelenideElement tableResult = $(".table-responsive");
+    private TestData testData;
 
-    private static final Map<String, List<String>> stateCityMap = Map.of(
-            "NCR", List.of("Delhi", "Gurgaon", "Noida"),
-            "Uttar Pradesh", List.of("Agra", "Lucknow", "Merrut"),
-            "Haryana", List.of("Karnal", "Panipat"),
-            "Rajasthan", List.of("Jaipur", "Jaiselmer")
-    );
 
     final SelenideElement
             firstNameInput = $("#firstName"),
@@ -44,12 +38,10 @@ public class  RegistrationPage extends TestBase {
             emailInput = $("#userEmail"),
             genderRadio = $("label[for='gender-radio-1']"),
             userPhone = $("#userNumber"),
-            subject = $("#subjectsInput"),
-            subjectCont = $("#subjectsContainer"),
             adress = $("#currentAddress"),
             submit = $("#submit"),
-            noResults = $(".table-responsive"),
             dateOfBirthInput = $("#dateOfBirthInput");
+
 
 
     private ElementsCollection genderOptions() {
@@ -118,46 +110,15 @@ public class  RegistrationPage extends TestBase {
         return this;
     }
 
-    public RegistrationPage invalidEmail(String email) {
-        emailInput.setValue(email);
-        return this;
-    }
-
     public RegistrationPage setFirstName(String firstName) {
 
         firstNameInput.setValue(firstName);
         return this;
     }
 
-    public RegistrationPage setRandomStateAndCity() {
-        Map<String, List<String>> stateCityMap = new HashMap<>();
-        stateCityMap.put("NCR", Arrays.asList("Delhi", "Gurgaon", "Noida"));
-        stateCityMap.put("Uttar Pradesh", Arrays.asList("Agra", "Lucknow", "Merrut"));
-        stateCityMap.put("Haryana", Arrays.asList("Karnal", "Panipat"));
-        stateCityMap.put("Rajasthan", Arrays.asList("Jaipur", "Jaiselmer"));
 
-        List<String> states = new ArrayList<>(stateCityMap.keySet());
-        String selectedState = states.get(new Random().nextInt(states.size()));
-        List<String> cities = stateCityMap.get(selectedState);
-        String selectedCity = cities.get(new Random().nextInt(cities.size()));
-
-        $("#state").click();
-        $(byText(selectedState)).click();
-
-        $("#city").click();
-        $(byText(selectedCity)).click();
-
-        selectedStateAndCity = selectedState + " " + selectedCity;
-
-        return this;
-    }
-
-    public RegistrationPage checkStateAndCityInResult() {
-        new ResultTable().tableResult.shouldBe(Condition.visible);
-
-        new ResultTable().checkTableResult("State and City", selectedStateAndCity);
-
-        return this;
+    public void checkStateAndCityInResult(String selectedStateAndCity) {
+        resultTable.checkTableResult("State and City", selectedStateAndCity);
     }
 
     public RegistrationPage setLastName(String lastName) {
@@ -197,55 +158,30 @@ public class  RegistrationPage extends TestBase {
         return this;
     }
 
-    public RegistrationPage setSubjects(String value) {
-        subjectCont.click();
-        subject.setValue(value).pressEnter();
-        return this;
-    }
-
-    public RegistrationPage setRandomHobbies() {
-        Map<String, String> hobbyLabels = Map.of(
-                "label[for='hobbies-checkbox-1']", "Sports",
-                "label[for='hobbies-checkbox-2']", "Reading",
-                "label[for='hobbies-checkbox-3']", "Music"
-        );
-
-        List<String> checkboxSelectors = new ArrayList<>(hobbyLabels.keySet());
-        Collections.shuffle(checkboxSelectors);
-
-        int count = 1 + new Random().nextInt(checkboxSelectors.size()); // от 1 до 3
-        selectedHobbies = new ArrayList<>();
-
-        for (int i = 0; i < count; i++) {
-            String locator = checkboxSelectors.get(i);
-            $(locator).click();
-            selectedHobbies.add(hobbyLabels.get(locator));
+    public RegistrationPage selectHobbies(List<String> hobbySelectors) {
+        for (String selector : hobbySelectors) {
+            $(selector).click();
         }
-
         return this;
     }
 
-    public RegistrationPage checkHobbiesInResult() {
-        String joinedHobbies = String.join(", ", selectedHobbies);
-        return checkTableResult("Hobbies", joinedHobbies);
-    }
-
-    public RegistrationPage uploadRandomPicture() {
-        List<String> availablePictures = Arrays.asList("test_img.jpg", "shilo.jpg", "tyler.jpg");
-        uploadedPictureName = availablePictures.get(new Random().nextInt(availablePictures.size()));
-        $("#uploadPicture").uploadFromClasspath(uploadedPictureName);
+    public RegistrationPage setTestData(TestData data) {
+        this.testData = data;
         return this;
     }
 
-    public RegistrationPage checkPictureInResult() {
-        return checkTableResult("Picture", uploadedPictureName);
+    public void checkHobbiesInResult() {
+        if (testData == null || testData.selectedHobbyLabels == null) {
+            throw new IllegalStateException("TestData или хобби не инициализированы.");
+        }
+        resultTable.checkTableResult("Hobbies", testData.getHobbiesAsText());
     }
 
-
-    public void setDateOfBirth(String day, String month, String year) {
-        new CalendarComponent().setDate(month, year, day);
-
+    public RegistrationPage uploadPicture(String pictureFileName) {
+        $("#uploadPicture").uploadFromClasspath(pictureFileName);
+        return this;
     }
+
 
     public RegistrationPage checkTableResult(String key, String value) {
         new ResultTable().checkTableResult(key, value);
@@ -257,8 +193,4 @@ public class  RegistrationPage extends TestBase {
         return this;
     }
 
-    public RegistrationPage resultsAbsent() {
-        noResults.shouldNotBe(visible);
-        return this;
-    }
 }

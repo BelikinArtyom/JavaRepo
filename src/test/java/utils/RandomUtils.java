@@ -1,8 +1,9 @@
 package utils;
 
-import io.netty.util.internal.ThreadLocalRandom;
+
 
 import java.security.SecureRandom;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class RandomUtils {
 

@@ -3,15 +3,20 @@ package tests;
 import org.junit.jupiter.api.*;
 import pages.RegistrationPage;
 
-import static com.codeborne.selenide.Selenide.sleep;
 import static tests.TestData.*;
 
 public class PageObjectsTestFormDataGenerate extends TestBase {
 
     RegistrationPage registrationPage = new RegistrationPage();
+    TestData testData = new TestData();
+
 
     @Test
     void formTest1() {
+
+        TestData data = new TestData();
+        data.generateRandomHobbies();
+        data.generateRandomPictureName();
 
         registrationPage.openPage();
 
@@ -28,13 +33,14 @@ public class PageObjectsTestFormDataGenerate extends TestBase {
         registrationPage
                 .setRandomSubjects(2);
 
-        registrationPage
-                .setRandomHobbies();
+        registrationPage.setTestData(data);
+        registrationPage.selectHobbies(data.selectedHobbySelectors);
 
-        registrationPage
-                .uploadRandomPicture()
-                .setAdress(adress)
-                .setRandomStateAndCity();
+        registrationPage.uploadPicture(data.getUploadedPictureName());
+
+        registrationPage.setAdress(adress);
+
+        testData.setRandomStateAndCity();
 
         registrationPage
                 .submitButton();
@@ -53,12 +59,9 @@ public class PageObjectsTestFormDataGenerate extends TestBase {
 
         registrationPage.checkHobbiesInResult();
 
-        registrationPage.checkPictureInResult();
-
-        registrationPage.checkStateAndCityInResult();
+        registrationPage.checkStateAndCityInResult(testData.selectedStateAndCity);
 
         registrationPage.checkTableResult("Address", adress);
-
     }
 
 }
