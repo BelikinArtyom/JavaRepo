@@ -1,6 +1,7 @@
 package tests;
 
 import com.codeborne.selenide.CollectionCondition;
+import com.codeborne.selenide.Condition;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
@@ -37,6 +38,9 @@ public class WebTests {
 
         }
 
+
+
+
 //    @Test
 //    @Tag("BLOCKER")
 //    @DisplayName("Наличие корректного URL в поисковой выдаче")
@@ -45,7 +49,7 @@ public class WebTests {
 //        $$("[data-testid='mainline'] li[data-layout='organic']").shouldBe(CollectionCondition.sizeGreaterThan(0));
 //        $("[data-testid='mainline'] li[data-layout='organic']").shouldHave(text("https://selenide.org/"));
 //    }
-
+//
 //    @Test
 //    @Tag("BLOCKER")
 //    @DisplayName("Наличие поисковой выдачи по квери Junit")
@@ -53,9 +57,9 @@ public class WebTests {
 //        $("#searchbox_input").setValue("junit").pressEnter();
 //        $$("[data-testid='mainline'] li[data-layout='organic']").shouldBe(CollectionCondition.sizeGreaterThan(0));
 //    }
-
-
-
+//
+//
+//
 //    @Test
 //    @Tag("BLOCKER")
 //    @DisplayName("Отображение поисковой выдачи в картинках")
