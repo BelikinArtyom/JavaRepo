@@ -29,7 +29,7 @@ public class WebTests {
 //    })
 
     @CsvFileSource(resources = "/testData/searchResults.csv")
-    @ParameterizedTest (name ="Наличие поисковой выдачи по квери {0} ссылки {1}")
+    @ParameterizedTest (name ="Наличие поисковой выдачи по квери ссылки {1}")
     @Tag("BLOCKER")
     @DisplayName("Наличие корректного URL в поисковой выдаче")
     void searchResultsShouldHaveURL(String searchQ, String expectedURL)  {
@@ -37,9 +37,6 @@ public class WebTests {
         $("[data-testid='mainline'] li[data-layout='organic']").shouldHave(text(expectedURL));
 
         }
-
-
-
 
 //    @Test
 //    @Tag("BLOCKER")

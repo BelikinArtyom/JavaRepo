@@ -1,7 +1,6 @@
 package tests;
 
 import com.codeborne.selenide.CollectionCondition;
-import net.bytebuddy.asm.Advice;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
@@ -9,12 +8,10 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.Selenide.*;
-import static org.openqa.selenium.bidi.script.LocalValue.setValue;
 
 
-public class MvideoTests extends TestBase  {
+public class NewTestsWybor extends TestBase  {
 
 
     @BeforeEach
@@ -23,27 +20,20 @@ public class MvideoTests extends TestBase  {
     }
 
 
-    @CsvSource(value = {
-            "Selenide, https://ru.selenide.org",
-            "Junit5, https://junit.org"
-    })
+//    @CsvSource(value = {
+//            "Selenide, https://ru.selenide.org",
+//            "Junit5, https://junit.org"
+//    })
 
     @ValueSource(strings = {"Аккумулятор тяговый", "CSB", "Мото аккумулятор"
-            })
+    })
     @ParameterizedTest(name ="При вводе поискового запроса {0} отображаются карточки товара")
     @Tag("Smoke")
     @DisplayName("Отображение карточек товара после выполнения поиска")
-     void smartPhoneSearchSuggests(String query) {
+    void smartPhoneSearchSuggests(String query) {
         $("#edit-search-api-views-fulltext").setValue(query).pressEnter();
         $$("#views-bootstrap-grid-1").shouldBe(CollectionCondition.sizeGreaterThan(0));
 
-//        sleep(9000);
 
-     }
-
-
-
-
-
-
+    }
 }
