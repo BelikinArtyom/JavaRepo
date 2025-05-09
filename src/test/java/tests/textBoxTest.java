@@ -21,4 +21,18 @@ public class textBoxTest extends TestBase {
                 .textBoxResults();
     }
 
+    public enum ShopAddresses {
+
+        Izhevsk("г. Ижевск, ул. Карла Маркса, д. 300А"),
+        SPB("г. Санкт-Петербург, ул. Марата, д. 53");
+
+        public final String address;
+
+        ShopAddresses(String address){
+        this.address = address;
+
+        }
+
+
+    }
 }
