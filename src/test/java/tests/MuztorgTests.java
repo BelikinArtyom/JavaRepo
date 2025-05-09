@@ -5,8 +5,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-import org.junit.jupiter.params.provider.EnumSource;
-import org.openqa.selenium.devtools.v133.autofill.model.Address;
 
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
@@ -36,12 +34,3 @@ public class MuztorgTests  extends TestBase {
     }
 
 }
-
-//    static Stream<Arguments> brandNameTest(){
-//
-//        return Stream.of(
-//                Arguments.of(),
-//                Arguments.of()
-//
-//        );
-//    }
