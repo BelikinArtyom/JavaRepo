@@ -9,7 +9,7 @@ public class TestBase {
     @BeforeAll
     public static void beforeAll() {
         Configuration.browserSize = "2560x1440";
-//        Configuration.baseUrl = "https://demoqa.com";
+        Configuration.baseUrl = "https://demoqa.com";
         Configuration.pageLoadStrategy = "eager";
         Configuration.headless = false;
     }

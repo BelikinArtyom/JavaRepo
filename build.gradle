@@ -13,7 +13,13 @@ dependencies {
     testImplementation (
             "com.codeborne:selenide:7.9.1",
             "org.junit.jupiter:junit-jupiter:5.9.3",
-            "com.github.javafaker:javafaker:1.0.2",)
+            "com.github.javafaker:javafaker:1.0.2",
+            "commons-io:commons-io:2.19.0",
+             'com.codeborne:pdf-test:1.5.0',
+                     'com.codeborne:xls-test:1.4.3',
+                     'com.opencsv:opencsv:5.9',
+                     'com.google.code.gson:gson:2.10.1',
+                     "com.opencsv:opencsv:5.11")
 
 }
 

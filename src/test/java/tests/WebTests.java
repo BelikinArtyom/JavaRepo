@@ -1,15 +1,10 @@
 package tests;
 
-import com.codeborne.selenide.CollectionCondition;
-import com.codeborne.selenide.Condition;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
-import org.junit.jupiter.params.provider.CsvSource;
-import org.junit.jupiter.params.provider.ValueSource;
 
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.*;
@@ -28,7 +23,7 @@ public class WebTests {
 //            "Junit5, https://junit.org"
 //    })
 
-    @CsvFileSource(resources = "/testData/searchResults.csv")
+    @CsvFileSource(resources = "/searchResults.csv")
     @ParameterizedTest (name ="Наличие поисковой выдачи по квери ссылки {1}")
     @Tag("BLOCKER")
     @DisplayName("Наличие корректного URL в поисковой выдаче")
