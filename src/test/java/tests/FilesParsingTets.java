@@ -8,6 +8,8 @@ import org.junit.jupiter.api.Test;
 
 import java.io.*;
 import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
@@ -62,4 +64,28 @@ public class FilesParsingTets {
 
     }
 
+    @Test
+    void zipTest() throws Exception {
+        try (ZipInputStream zis = new ZipInputStream(
+                cl.getResourceAsStream("sample-2.zip")
+        ))  {
+            ZipEntry entry;
+            while ((entry = zis.getNextEntry()) != null) {
+
+                System.out.println(entry.getName());
+
+            }
+
+        }
+    }
+
+    @Test
+    void jsonTest() throws Exception {
+
+
+
+    }
+
+
 }
+
