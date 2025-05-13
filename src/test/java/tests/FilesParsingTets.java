@@ -102,7 +102,7 @@ public class FilesParsingTets {
 }
 
     @Test
-    void jsonTestImproved() throws Exception {
+    void jsonTestImprovedGson() throws Exception {
 
         try (Reader reader = new InputStreamReader(cl.getResourceAsStream("JaySon.json")))
         {
