@@ -50,7 +50,7 @@ public class ZipArchiveTest {
                 count++;
             }
 
-            assertEquals(3, count, "Ожидалось 3 файла в архиве");
+            assertEquals(3, count);
         }
     }
 

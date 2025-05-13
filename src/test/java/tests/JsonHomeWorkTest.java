@@ -15,11 +15,9 @@ public class JsonHomeWorkTest {
 
         ClassLoader cl = getClass().getClassLoader();
         try (InputStream is = cl.getResourceAsStream("JaySon.json")) {
-            assertNotNull(is, "Файл JaySon.json не найден в resources");
 
             ObjectMapper mapper = new ObjectMapper();
             OrderDetails orderDetails = mapper.readValue(is, OrderDetails.class);
-
 
             assertEquals("John Smith", orderDetails.getName());
             assertEquals(20223, orderDetails.getSku());
