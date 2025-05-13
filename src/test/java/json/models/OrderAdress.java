@@ -57,15 +57,4 @@ public class OrderAdress {
     public void setCity(String city) {
         this.city = city;
     }
-
-
-//        "shipTo" : {
-//        "name" : "Jane Smith",
-//                "address" : "123 Maple Street",
-//                "city" : "Pretendville",
-//                "state" : "NY",
-//                "zip"   : 12345
-//
-//
-
 }

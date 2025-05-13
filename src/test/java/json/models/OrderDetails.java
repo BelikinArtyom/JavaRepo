@@ -1,7 +1,5 @@
 package json.models;
 
-import org.openqa.selenium.devtools.v134.autofill.model.Address;
-
 public class OrderDetails {
 
     public String name;
