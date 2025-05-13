@@ -1,15 +1,13 @@
 package tests;
 
-import com.codeborne.pdftest.PDF;
 import com.opencsv.CSVReader;
-import org.junit.jupiter.api.Assertions;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.text.PDFTextStripper;
+import org.apache.poi.ss.usermodel.*;
 import org.junit.jupiter.api.Test;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -20,44 +18,84 @@ public class ZipArchiveTest {
 
     private ClassLoader cl = ZipArchiveTest.class.getClassLoader();
 
-
     @Test
     void zipTesting() throws Exception {
-        ClassLoader cl = getClass().getClassLoader();
+        try (ZipInputStream zis = new ZipInputStream(
+                cl.getResourceAsStream("testZip.zip")
+        )) {
 
-        try (ZipInputStream zis = new ZipInputStream(cl.getResourceAsStream("testZip.zip"))) {
             ZipEntry entry;
+            int count = 0;
+
             while ((entry = zis.getNextEntry()) != null) {
                 String name = entry.getName();
-                System.out.println("Found file: " + name);
+                System.out.println("Found in ZIP: " + name);
 
-                // Если это нужный CSV-файл
-                if (name.equals("country_UK.csv")) {
-                    // Чтение CSV прямо из ZipInputStream
-                    CSVReader reader = new CSVReader(new InputStreamReader(zis));
-                    List<String[]> rows = reader.readAll();
-
-                    // Проверка, что есть строки с конкретной страной
-                    List<String> countries = rows.stream()
-                            .skip(1) // пропускаем заголовок
-                            .map(row -> row[0])
-                            .collect(Collectors.toList());
-
-                    assertTrue(countries.contains("Wales"));
-                    assertTrue(countries.contains("Scotland"));
-                    assertTrue(countries.contains("Northern Ireland"));
-                    assertTrue(countries.contains("England"));
-
-                    // Проверка, что присутствует конкретная пара Country/County
-                    boolean hasCounty = rows.stream().anyMatch(row ->
-                            row[0].equals("Scotland") && row[1].equals("Glasgow City"));
-                    assertTrue(hasCounty);
-
-                    }
-
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                byte[] buffer = new byte[1024];
+                int len;
+                while ((len = zis.read(buffer)) > 0) {
+                    baos.write(buffer, 0, len);
                 }
+                ByteArrayInputStream entryStream = new ByteArrayInputStream(baos.toByteArray());
+
+                if (name.endsWith(".csv")) {
+                    checkCsv(entryStream);
+                } else if (name.endsWith(".xls") || name.endsWith(".xlsx")) {
+                    checkExcel(entryStream);
+               } else if (name.endsWith(".pdf")) {
+                    checkPdf(entryStream);
+                }
+
+                count++;
+            }
+
+            assertEquals(3, count, "Ожидалось 3 файла в архиве");
+        }
+    }
+
+    void checkCsv(InputStream is) throws Exception {
+        try (CSVReader reader = new CSVReader(new InputStreamReader(is))) {
+            List<String[]> rows = reader.readAll();
+
+            List<String[]> expected = List.of(
+                    new String[]{"Country", "County"},
+                    new String[]{"England", "Buckinghamshire"},
+                    new String[]{"England", "Cambridgeshire"},
+                    new String[]{"England", "Cheshire"},
+                    new String[]{"England", "Cleveland"},
+                    new String[]{"England", "Cornwall"},
+                    new String[]{"England", "Cumbria"},
+                    new String[]{"England", "Derbyshire"},
+                    new String[]{"England", "Devon"}
+
+            );
+            assertEquals(expected.size(), rows.size());
+
+            for (int i = 0; i < expected.size(); i++) {
+                assertArrayEquals(expected.get(i), rows.get(i));
             }
         }
     }
+
+    void checkExcel(InputStream is) throws Exception {
+        try (Workbook workbook = WorkbookFactory.create(is)) {
+            Sheet sheet = workbook.getSheetAt(0);
+            Row row = sheet.getRow(2);
+            Cell cell = row.getCell(1);
+
+            assertEquals("Bagpipes are awesome.", cell.getStringCellValue());
+        }
+    }
+
+    void checkPdf(InputStream is) throws Exception {
+        try (PDDocument document = PDDocument.load(is)) {
+            PDFTextStripper stripper = new PDFTextStripper();
+            String text = stripper.getText(document);
+
+            assertTrue(text.contains("This is a simple PDF file. Fun fun fun."));
+        }
+    }
+}
 
 
