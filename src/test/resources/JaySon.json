@@ -1,14 +1,12 @@
 {
-  "widget": {
-  "text": {
-    "data": "Click Here",
-    "size": 36,
-    "style": "bold",
-    "name": "text1",
-    "hOffset": 250,
-    "vOffset": 100,
-    "alignment": "center",
-    "onMouseUp": "sun1.opacity = (sun1.opacity / 100) * 90;"
+  "name"   : "John Smith",
+  "sku"    : 20223,
+  "price"  : 23.95,
+  "shipTo" : {
+          "name" : "Jane Smith",
+          "address" : "123 Maple Street",
+          "city" : "Pretendville",
+          "state" : "NY",
+          "zip"   : 12345
   }
-}
 }

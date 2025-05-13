@@ -19,7 +19,8 @@ dependencies {
                      'com.codeborne:xls-test:1.4.3',
                      'com.opencsv:opencsv:5.9',
                      'com.google.code.gson:gson:2.10.1',
-                     "com.opencsv:opencsv:5.11")
+                     "com.opencsv:opencsv:5.11",
+            "com.google.code.gson:gson:2.13.1")
 
 }
 

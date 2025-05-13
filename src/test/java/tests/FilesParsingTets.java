@@ -2,7 +2,10 @@ package tests;
 
 import com.codeborne.pdftest.PDF;
 import com.codeborne.xlstest.XLS;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.opencsv.CSVReader;
+import json.models.JaySon;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -17,6 +20,7 @@ import static com.codeborne.selenide.Selenide.open;
 public class FilesParsingTets {
 
     private ClassLoader cl = FilesParsingTets.class.getClassLoader();
+    private static final Gson gson = new Gson();
 
 
     @Test
@@ -82,10 +86,36 @@ public class FilesParsingTets {
     @Test
     void jsonTest() throws Exception {
 
+        try (Reader reader = new InputStreamReader(cl.getResourceAsStream("JaySon.json")))
+        {
+       JsonObject actual = gson.fromJson(reader, JsonObject.class);
 
+       Assertions.assertEquals("John Smith", actual.get("name").getAsString());
+       Assertions.assertEquals(20223, actual.get("sku").getAsInt());
+
+       JsonObject inner =actual.get("shipTo").getAsJsonObject();
+
+       Assertions.assertEquals("Pretendville", inner.get("city").getAsString());
+       Assertions.assertEquals(12345, inner.get("zip").getAsInt());
 
     }
+}
 
+    @Test
+    void jsonTestImproved() throws Exception {
+
+        try (Reader reader = new InputStreamReader(cl.getResourceAsStream("JaySon.json")))
+        {
+            JaySon actual = gson.fromJson(reader, JaySon.class);
+
+            Assertions.assertEquals("John Smith", actual.getName());
+            Assertions.assertEquals(20223, actual.getSku());
+
+            Assertions.assertEquals("Pretendville", actual.getShipTo().getCity());
+            Assertions.assertEquals(12345, actual.getShipTo().getZip());
+
+        }
+    }
 
 }
 
