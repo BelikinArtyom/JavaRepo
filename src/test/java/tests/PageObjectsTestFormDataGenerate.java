@@ -26,7 +26,7 @@ public class PageObjectsTestFormDataGenerate extends TestBase {
                 .setEmail(email)
                 .selectGender(TestData.gender);
         registrationPage.setPhoneNumber(faker.number().digits(6));
-        registrationPage.setRandomBirthDate(testData);
+        registrationPage.setRandomBirthDateWithFaker();
         registrationPage.selectSubjects(Collections.singletonList(singleSubject));
         registrationPage.selectHobbies(data.selectedHobbySelectors);
         registrationPage.uploadPicture(data.getUploadedPictureName());

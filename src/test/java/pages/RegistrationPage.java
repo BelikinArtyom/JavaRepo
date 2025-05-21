@@ -2,12 +2,12 @@ package pages;
 
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
+import pages.components.CalendarComponent;
 import pages.components.ResultTable;
 import tests.TestBase;
 import tests.TestData;
 import java.util.*;
 
-import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.*;
 
 public class  RegistrationPage extends TestBase {
@@ -18,6 +18,7 @@ public class  RegistrationPage extends TestBase {
     public List<String> selectedSubjects;
     private ResultTable resultTable = new ResultTable();
     private TestData testData;
+    CalendarComponent calendar = new CalendarComponent();
 
 
     final SelenideElement
@@ -26,39 +27,21 @@ public class  RegistrationPage extends TestBase {
             emailInput = $("#userEmail"),
             userPhone = $("#userNumber"),
             adress = $("#currentAddress"),
-            submit = $("#submit"),
-            dateOfBirthInput = $("#dateOfBirthInput");
+            submit = $("#submit");
 
 
-    public RegistrationPage setRandomBirthDate(TestData testData) {
-
-        testData.generateRandomBirthDate();
-
-        selectedBirthDateFormatted = testData.selectedBirthDateFormatted;
-
-        dateOfBirthInput.click();
-
-        int monthIndex = testData.randomBirthDate.getMonthValue() - 1;
-        $(".react-datepicker__month-select").selectOption(monthIndex);
-
-        // Выбираем год
-        $(".react-datepicker__year-select").selectOption(String.valueOf(testData.randomBirthDate.getYear()));
-
-        // Выбираем день
-        $(".react-datepicker").$(byText(String.valueOf(testData.randomBirthDate.getDayOfMonth()))).click();
-
+    public RegistrationPage setRandomBirthDateWithFaker() {
+        selectedBirthDateFormatted = calendar.setFakerDate();
         return this;
     }
 
     public RegistrationPage checkBirthDateInResult(ResultTable resultTable) {
         if (selectedBirthDateFormatted == null) {
-            throw new RuntimeException("Selected birth date is null");
+            throw new IllegalStateException("Selected birth date is null");
         }
-
         resultTable.checkTableResult("Date of Birth", selectedBirthDateFormatted);
         return this;
     }
-
 
     public RegistrationPage selectGender(String gender) {
         $$("#genterWrapper .custom-control").findBy(Condition.text(gender)).click();

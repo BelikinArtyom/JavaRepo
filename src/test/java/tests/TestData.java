@@ -1,11 +1,9 @@
 package tests;
 
 import com.github.javafaker.Faker;
-
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
-import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Collectors;
 
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.$;
@@ -16,8 +14,6 @@ public class TestData {
     private String uploadedPictureName;
     public String selectedBirthDateFormatted;
     public static final Faker faker = new Faker();
-    public LocalDate randomBirthDate;
-
 
     public static final String firstName = faker.name().firstName();
     public static final String lastName = faker.name().lastName();
@@ -40,17 +36,31 @@ public class TestData {
 
 
     public void setRandomStateAndCity() {
-        Map<String, List<String>> stateCityMap = new HashMap<>();
-        stateCityMap.put("NCR", Arrays.asList("Delhi", "Gurgaon", "Noida"));
-        stateCityMap.put("Uttar Pradesh", Arrays.asList("Agra", "Lucknow", "Merrut"));
-        stateCityMap.put("Haryana", Arrays.asList("Karnal", "Panipat"));
-        stateCityMap.put("Rajasthan", Arrays.asList("Jaipur", "Jaiselmer"));
+        Faker faker = new Faker();
+        String selectedState;
+        String selectedCity;
 
-        List<String> states = new ArrayList<>(stateCityMap.keySet());
-        String selectedState = states.get(new Random().nextInt(states.size()));
-        List<String> cities = stateCityMap.get(selectedState);
-        String selectedCity = cities.get(new Random().nextInt(cities.size()));
+        // Случайно выбираем один из 4-х штатов
+        selectedState = faker.options().option("NCR", "Uttar Pradesh", "Haryana", "Rajasthan");
 
+        switch (selectedState) {
+            case "NCR":
+                selectedCity = faker.options().option("Delhi", "Gurgaon", "Noida");
+                break;
+            case "Uttar Pradesh":
+                selectedCity = faker.options().option("Agra", "Lucknow", "Merrut");
+                break;
+            case "Haryana":
+                selectedCity = faker.options().option("Karnal", "Panipat");
+                break;
+            case "Rajasthan":
+                selectedCity = faker.options().option("Jaipur", "Jaiselmer");
+                break;
+            default:
+                throw new IllegalStateException("Unexpected state: " + selectedState);
+        }
+
+        // Выбор в UI
         $("#state").click();
         $(byText(selectedState)).click();
 
@@ -61,8 +71,7 @@ public class TestData {
     }
 
     public void generateRandomPictureName() {
-        List<String> availablePictures = Arrays.asList("test_img.jpg", "shilo.jpg", "tyler.jpg");
-        uploadedPictureName = availablePictures.get(new Random().nextInt(availablePictures.size()));
+        uploadedPictureName = faker.options().option("test_img.jpg", "shilo.jpg", "tyler.jpg");
     }
 
     public String getUploadedPictureName() {
@@ -70,35 +79,24 @@ public class TestData {
     }
 
     public void generateRandomHobbies() {
-        List<String> allSelectors = new ArrayList<>(hobbyMap.keySet());
-        Collections.shuffle(allSelectors);
+        String[] allSelectors = hobbyMap.keySet().toArray(new String[0]);
 
-        int count = 1 + new Random().nextInt(allSelectors.size());
+        int count = faker.number().numberBetween(1, allSelectors.length + 1);
 
-        selectedHobbySelectors = new ArrayList<>();
-        selectedHobbyLabels = new ArrayList<>();
-
-        for (int i = 0; i < count; i++) {
-            String selector = allSelectors.get(i);
-            selectedHobbySelectors.add(selector);
-            selectedHobbyLabels.add(hobbyMap.get(selector));
+        Set<String> uniqueSelectors = new LinkedHashSet<>();
+        while (uniqueSelectors.size() < count) {
+            uniqueSelectors.add(faker.options().option(allSelectors));
         }
+
+        selectedHobbySelectors = new ArrayList<>(uniqueSelectors);
+        selectedHobbyLabels = selectedHobbySelectors.stream()
+                .map(hobbyMap::get)
+                .collect(Collectors.toList());
     }
 
     public String getHobbiesAsText() {
         return String.join(", ", selectedHobbyLabels);
     }
-
-    public void generateRandomBirthDate() {
-        LocalDate start = LocalDate.of(1980, 1, 1);  // Начало диапазона
-        LocalDate end = LocalDate.now();  // Текущая дата
-        long randomDay = ThreadLocalRandom.current().nextLong(start.toEpochDay(), end.toEpochDay());
-        randomBirthDate = LocalDate.ofEpochDay(randomDay);
-
-        // Форматируем дату в нужный формат
-        selectedBirthDateFormatted = randomBirthDate.format(DateTimeFormatter.ofPattern("dd MMMM,yyyy", Locale.ENGLISH));
-    }
-
 }
 
 
