@@ -36,6 +36,7 @@ public class PageObjectsTestFormDataGenerate extends TestBase {
     @Owner("belikinA")
     @Severity(SeverityLevel.CRITICAL)
     @DisplayName("Прохождение формы случайными данными")
+    @Tag("Homework")
     void formTest1() {
 
         SelenideLogger.addListener("allure", new AllureSelenide());
