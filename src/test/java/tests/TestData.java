@@ -1,6 +1,11 @@
 package tests;
 
+import com.codeborne.selenide.WebDriverRunner;
 import com.github.javafaker.Faker;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.remote.SessionId;
+
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -94,6 +99,15 @@ public class TestData {
 
     public String getHobbiesAsText() {
         return String.join(", ", selectedHobbyLabels);
+    }
+
+    public static String getSessionId() {
+        WebDriver driver = WebDriverRunner.getWebDriver();
+        if (driver instanceof RemoteWebDriver) {
+            SessionId session = ((RemoteWebDriver) driver).getSessionId();
+            return session != null ? session.toString() : null;
+        }
+        return null;
     }
 }
 
