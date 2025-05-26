@@ -14,12 +14,13 @@ import java.util.Collections;
 import static io.qameta.allure.Allure.step;
 import static tests.TestData.*;
 
+
+
 public class PageObjectsTestFormDataGenerate extends TestBase {
 
     RegistrationPage registrationPage = new RegistrationPage();
     TestData testData = new TestData();
     ResultTable resultTable = new ResultTable();
-
 
     @AfterEach
     void Attach() {
