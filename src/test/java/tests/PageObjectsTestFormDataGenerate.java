@@ -7,6 +7,8 @@ import io.qameta.allure.selenide.AllureSelenide;
 import org.junit.jupiter.api.*;
 import pages.RegistrationPage;
 import pages.components.ResultTable;
+import tests.data.WebSteps;
+
 import java.util.Collections;
 
 import static io.qameta.allure.Allure.step;
@@ -28,7 +30,6 @@ public class PageObjectsTestFormDataGenerate extends TestBase {
         Attach.addVideo();
     }
 
-
     @Test
     @Feature("Регистрация пользователей")
     @Story("Форма регистрации")
@@ -41,6 +42,13 @@ public class PageObjectsTestFormDataGenerate extends TestBase {
         TestData data = new TestData();
         data.generateRandomHobbies();
         data.generateRandomPictureName();
+
+        WebSteps webSteps = new WebSteps();
+
+//        webSteps.openPageStep();
+//        webSteps.formFill();
+//        webSteps.formSubmit();
+//        webSteps.formCheck();
 
 
         step("Открываем форму", () -> {
@@ -121,4 +129,4 @@ public class PageObjectsTestFormDataGenerate extends TestBase {
 //        registrationPage.checkTableResult("Address", adress);
 //
 
-}
+    }

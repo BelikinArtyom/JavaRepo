@@ -40,7 +40,6 @@ public class TestData {
         String selectedState;
         String selectedCity;
 
-        // Случайно выбираем один из 4-х штатов
         selectedState = faker.options().option("NCR", "Uttar Pradesh", "Haryana", "Rajasthan");
 
         switch (selectedState) {
@@ -60,7 +59,6 @@ public class TestData {
                 throw new IllegalStateException("Unexpected state: " + selectedState);
         }
 
-        // Выбор в UI
         $("#state").click();
         $(byText(selectedState)).click();
 
