@@ -16,7 +16,7 @@ public class TestBase {
     private static final String SELENOID_LOGIN = System.getProperty("selenoid.login");
     private static final String SELENOID_PASSWORD = System.getProperty("selenoid.password");
     private static final String BROWSER = System.getProperty("browser", "chrome");
-    private static final String BROWSER_VERSION = System.getProperty("browser.version", "latest");
+//    private static final String BROWSER_VERSION = System.getProperty("browser.version", "127.0");
     private static final String BROWSER_SIZE = System.getProperty("browser.size", "1920x1080");
 
 
@@ -26,11 +26,11 @@ public class TestBase {
         System.out.println("SELENOID_LOGIN = " + SELENOID_LOGIN);
         System.out.println("SELENOID_PASSWORD = " + SELENOID_PASSWORD);
         System.out.println("BROWSER = " + BROWSER);
-        System.out.println("BROWSER_VERSION = " + BROWSER_VERSION);
+//        System.out.println("BROWSER_VERSION = " + BROWSER_VERSION);
         System.out.println("BROWSER_SIZE = " + BROWSER_SIZE);
 
         Configuration.browser = BROWSER;
-        Configuration.browserVersion = BROWSER_VERSION;
+//        Configuration.browserVersion = BROWSER_VERSION;
         Configuration.browserSize = BROWSER_SIZE;
         Configuration.baseUrl = "https://demoqa.com";
         Configuration.pageLoadStrategy = "eager";
