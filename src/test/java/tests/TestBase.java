@@ -34,8 +34,6 @@ public class TestBase {
         Configuration.browserCapabilities = capabilities;
         Configuration.holdBrowserOpen = false;
 
-
-        DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability("selenoid:options", Map.<String, Object>of(
                 "enableVNC", true,
                 "enableVideo", true
