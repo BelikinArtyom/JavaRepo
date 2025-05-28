@@ -32,7 +32,7 @@ public class TestBase {
         Configuration.browserSize = BROWSER_SIZE;
         Configuration.baseUrl = "https://demoqa.com";
         Configuration.pageLoadStrategy = "eager";
-        Configuration.headless = false;
+        Configuration.headless = true;
         Configuration.holdBrowserOpen = false;
         Configuration.remote = "https://user1:1234@selenoid.autotests.cloud/wd/hub";
 
