@@ -34,7 +34,7 @@ public class TestBase {
         Configuration.pageLoadStrategy = "eager";
         Configuration.headless = true;
         Configuration.holdBrowserOpen = false;
-        Configuration.remote = "https://user1:1234@selenoid.autotests.cloud/wd/hub";
+//        Configuration.remote = "https://user1:1234@selenoid.autotests.cloud/wd/hub";
 
         if (SELENOID_URL != null && SELENOID_LOGIN != null && SELENOID_PASSWORD != null) {
             Configuration.remote = "https://" + SELENOID_LOGIN + ":" + SELENOID_PASSWORD + "@" + SELENOID_URL + "/wd/hub";
