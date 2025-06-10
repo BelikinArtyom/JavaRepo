@@ -15,46 +15,60 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class ZipArchiveTest {
 
-
     private ClassLoader cl = ZipArchiveTest.class.getClassLoader();
 
     @Test
-    void zipTesting() throws Exception {
-        try (ZipInputStream zis = new ZipInputStream(
-                cl.getResourceAsStream("testZip.zip")
-        )) {
-
+    void pdfFileTest() throws Exception {
+        try (ZipInputStream zis = new ZipInputStream(cl.getResourceAsStream("testZip.zip"))) {
             ZipEntry entry;
-            int count = 0;
+            boolean pdfFound = false;
 
             while ((entry = zis.getNextEntry()) != null) {
-                String name = entry.getName();
-                System.out.println("Found in ZIP: " + name);
-
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                byte[] buffer = new byte[1024];
-                int len;
-                while ((len = zis.read(buffer)) > 0) {
-                    baos.write(buffer, 0, len);
+                if (entry.getName().endsWith(".pdf")) {
+                    checkPdf(new ByteArrayInputStream(zis.readAllBytes()));
+                    pdfFound = true;
+                    break;
                 }
-                ByteArrayInputStream entryStream = new ByteArrayInputStream(baos.toByteArray());
-
-                if (name.endsWith(".csv")) {
-                    checkCsv(entryStream);
-                } else if (name.endsWith(".xls") || name.endsWith(".xlsx")) {
-                    checkExcel(entryStream);
-               } else if (name.endsWith(".pdf")) {
-                    checkPdf(entryStream);
-                }
-
-                count++;
             }
-
-            assertEquals(3, count);
+            assertTrue(pdfFound, "PDF file not found in ZIP archive");
         }
     }
 
-    void checkCsv(InputStream is) throws Exception {
+    @Test
+    void csvFileTest() throws Exception {
+        try (ZipInputStream zis = new ZipInputStream(cl.getResourceAsStream("testZip.zip"))) {
+            ZipEntry entry;
+            boolean csvFound = false;
+
+            while ((entry = zis.getNextEntry()) != null) {
+                if (entry.getName().endsWith(".csv")) {
+                    checkCsv(new ByteArrayInputStream(zis.readAllBytes()));
+                    csvFound = true;
+                    break;
+                }
+            }
+            assertTrue(csvFound, "CSV file not found in ZIP archive");
+        }
+    }
+
+    @Test
+    void excelFileTest() throws Exception {
+        try (ZipInputStream zis = new ZipInputStream(cl.getResourceAsStream("testZip.zip"))) {
+            ZipEntry entry;
+            boolean excelFound = false;
+
+            while ((entry = zis.getNextEntry()) != null) {
+                if (entry.getName().endsWith(".xls") || entry.getName().endsWith(".xlsx")) {
+                    checkExcel(new ByteArrayInputStream(zis.readAllBytes()));
+                    excelFound = true;
+                    break;
+                }
+            }
+            assertTrue(excelFound, "Excel file not found in ZIP archive");
+        }
+    }
+
+    private void checkCsv(InputStream is) throws Exception {
         try (CSVReader reader = new CSVReader(new InputStreamReader(is))) {
             List<String[]> rows = reader.readAll();
 
@@ -68,7 +82,6 @@ public class ZipArchiveTest {
                     new String[]{"England", "Cumbria"},
                     new String[]{"England", "Derbyshire"},
                     new String[]{"England", "Devon"}
-
             );
             assertEquals(expected.size(), rows.size());
 
@@ -78,7 +91,7 @@ public class ZipArchiveTest {
         }
     }
 
-    void checkExcel(InputStream is) throws Exception {
+    private void checkExcel(InputStream is) throws Exception {
         try (Workbook workbook = WorkbookFactory.create(is)) {
             Sheet sheet = workbook.getSheetAt(0);
             Row row = sheet.getRow(2);
@@ -88,7 +101,7 @@ public class ZipArchiveTest {
         }
     }
 
-    void checkPdf(InputStream is) throws Exception {
+    private void checkPdf(InputStream is) throws Exception {
         try (PDDocument document = PDDocument.load(is)) {
             PDFTextStripper stripper = new PDFTextStripper();
             String text = stripper.getText(document);
