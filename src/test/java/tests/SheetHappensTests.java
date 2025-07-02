@@ -4,7 +4,7 @@ import helpers.SheetData;
 import org.junit.jupiter.api.Test;
 import pages.SheetMainPage;
 
-public class SheetHappensTests {
+public class SheetHappensTests extends SheetTestBase {
 
     SheetMainPage sheetPage = new SheetMainPage();
     SheetData SheetData = new SheetData();
