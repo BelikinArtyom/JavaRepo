@@ -7,11 +7,9 @@ import static com.codeborne.selenide.Selenide.$;
 
 public class SheetData {
 
-
     public final SelenideElement searchQOnPage = $("h1");
 
     public void checkResult() {
         searchQOnPage.shouldHave(text(searchQOnPage.getText()));
     }
-
 }

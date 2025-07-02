@@ -8,9 +8,7 @@ import static com.codeborne.selenide.Selenide.open;
 
 public class SheetMainPage {
 
-
     public static final Faker faker = new Faker();
-
     public static final String searchQ = faker.chuckNorris().fact();
 
     private SelenideElement searchButton = $(".icon-search"),

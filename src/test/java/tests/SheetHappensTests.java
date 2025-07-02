@@ -10,7 +10,7 @@ public class SheetHappensTests {
     SheetData SheetData = new SheetData();
 
     @Test
-    public void testApple() {
+    public void noResultsShownTest() {
 
         sheetPage.openMainPage();
         sheetPage.searchInputClick();
