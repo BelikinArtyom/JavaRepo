@@ -63,7 +63,7 @@ public class Snippets {
         $("").sibling(1);
         $("").preceding(1);
         $("").closest("div");
-        $("").ancestor("div"); // the same as closest
+        $("").ancestor("div");
         $("div:last-child");
 
         $("div").$("h1").find(byText("abc")).click();
@@ -188,6 +188,7 @@ public class Snippets {
         $$("").shouldHave(sizeGreaterThanOrEqual(1));
         $$("").shouldHave(sizeLessThan(3));
         $$("").shouldHave(sizeLessThanOrEqual(2));
+        $("").shouldHave(text("")).click();
 
 
     }
